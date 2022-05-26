@@ -1,0 +1,23 @@
+@use '../../stylesUtils/colors.scss';
+
+button {
+    display: block;
+    padding: 10px;
+    background-color: transparent;
+    border: solid 2px;
+    border-color: colors.$green;
+    color: colors.$green;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+button:hover {
+    border-color: colors.$lightGreen;
+    color: colors.$lightGreen;
+}
+
+.dropdown {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}

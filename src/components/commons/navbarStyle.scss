@@ -1,0 +1,10 @@
+@use '../../stylesUtils/colors';
+
+nav {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 10px 25px;
+    height: 40px;
+    background-color: colors.$darkGrey;
+}

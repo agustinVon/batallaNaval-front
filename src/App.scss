@@ -1,0 +1,19 @@
+@use './stylesUtils/fontSizes.scss';
+@import 'https://fonts.googleapis.com/css?family=Poppins:300,400,600,700';
+
+* {
+font-family: 'Poppins';
+}
+
+#root {
+  height: 100vh;
+}
+
+label {
+  font-size: fontSizes.$small;
+}
+
+h1 {
+  font-size: fontSizes.$large;
+}
+

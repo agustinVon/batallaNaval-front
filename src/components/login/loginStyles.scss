@@ -1,0 +1,31 @@
+@use '../../stylesUtils/colors';
+
+h1 {
+    color: colors.$green;
+    font-weight: 700;
+    margin-top: 0;
+}
+
+.loginPage {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+.loginBackground {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex:1;
+    background-color: colors.$grey;
+}
+
+.loginForm {
+    display: block;
+}
+
+.loginContainer {
+
+}
