@@ -1,0 +1,58 @@
+@use '../../stylesUtils/colors';
+@use '../../stylesUtils/fontsizes';
+
+.chatContainer {
+    border: solid 2px;
+    border-color: colors.$green;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    height: 600px;
+    width: 300px;
+    background-color: colors.$darkGrey;
+}
+
+.chat {
+    flex: 1;
+    width: 100%;
+    padding: 10px;
+    overflow-y: scroll;
+}
+
+.emptyChat {
+    display: flex;
+    flex: 1;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.chatInputContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: colors.$darkGreen;
+    padding: 10px;
+    gap: 10px;
+}
+
+.messageContainer {
+    display: flex;
+    padding: 4px;
+    gap: 4px;
+}
+
+input {
+    background-color: colors.$grey;
+    border: solid 2px;
+    border-color: colors.$green;
+    border-radius: 6px;
+    padding: 4px;
+    flex: 1;
+}
+
+
+span {
+    font-size: fontsizes.$xSmall; 
+}
+

@@ -1,14 +1,13 @@
 @use '../../stylesUtils/colors.scss';
+@use '../../stylesUtils/fontsizes.scss';
 
 button {
     display: block;
-    padding: 10px;
     background-color: transparent;
     border: solid 2px;
     border-color: colors.$green;
     color: colors.$green;
     border-radius: 6px;
-    margin-bottom: 10px;
 }
 
 button:hover {
@@ -20,4 +19,15 @@ button:hover {
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+
+.mediumButton {
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: fontsizes.$small;
+}
+
+.smallButton {
+    padding: 4px;
+    font-size: fontsizes.$xSmall;
 }

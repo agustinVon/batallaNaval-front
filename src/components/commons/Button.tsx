@@ -4,18 +4,27 @@ import './buttonStyle.scss';
 interface ButtonProps {
   text: string;
   width: number;
-  onClick: () => void
+  onClick?: () => void;
+  className?: string
 }
 
 interface DropdownButtonProps {
   text: string;
   width: number;
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
-export const CommonButton = ({ text, width, onClick }: ButtonProps) => {
+export const CommonButton = ({ text, width, onClick, className }: ButtonProps) => {
   return (
-    <button style={{width: width}} onClick = {onClick}>
+    <button className={className} style={{width: width}} onClick = {onClick}>
+      <label>{text}</label>
+    </button>
+  )
+}
+
+export const SubmitButton = ({ text, width, className }: ButtonProps) => {
+  return (
+    <button className={className} type='submit' style={{width: width}}>
       <label>{text}</label>
     </button>
   )
