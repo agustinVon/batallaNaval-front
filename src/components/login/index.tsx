@@ -16,7 +16,7 @@ export const Login = () => {
         <h1>Battleships</h1>
         <div >
           <CommonButton className='mediumButton' text={"Register"} width={300} onClick={() => {}}/>
-          <CommonButton className='mediumButton' text={"Login"} width={300} onClick={() => loginWithRedirect}/>
+          <CommonButton className='mediumButton' text={"Login"} width={300} onClick={loginWithRedirect}/>
         </div>
       </div>
     </div>

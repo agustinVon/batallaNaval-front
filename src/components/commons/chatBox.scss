@@ -51,6 +51,10 @@ input {
     flex: 1;
 }
 
+input:focus {
+    outline-color: colors.$lightGreen;
+}
+
 
 span {
     font-size: fontsizes.$xSmall; 
