@@ -5,16 +5,17 @@ import { store } from './app/store';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
-import { Auth0Provider } from "@auth0/auth0-react";
+import { Auth0Provider } from '@auth0/auth0-react';
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);
+console.log(window.location.origin)
 root.render(
   <React.StrictMode>
     <Auth0Provider
     domain="dev-rkrdgtgt.us.auth0.com"
     clientId={`${process.env.REACT_APP_CLIENT_ID}`}
-    redirectUri={window.location.origin}
+    redirectUri="http://localhost:3000"
     >
       <Provider store={store}>
         <App />

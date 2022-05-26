@@ -24,7 +24,7 @@ export const ChatBox = () => {
 
   return (
     <div className='chatContainer'>
-        {!!ws 
+        {ws 
         ? <div className='chat'>
             <Message user='Test' userColor='red' message='Test message'/>
             <Message user='Test1' userColor='blue' message='Test message1'/>
@@ -50,7 +50,7 @@ interface MessageProps {
 
 const Message = ({ user, userColor, message }: MessageProps) => (
     <div className='messageContainer'>
-        <span style={{color: userColor}} >{user}:</span>
+        <span style={{color: userColor, fontWeight:'bold'}} >{user}:</span>
         <span>{message}</span>
     </div>
 )

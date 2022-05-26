@@ -5,7 +5,6 @@ import { ChatBox } from '../commons/ChatBox';
 import { CommonButton } from '../commons/Button';
 
 export const Home = () => {
-  const { loginWithRedirect } = useAuth0();
 
   return (
     <div className='homePage'>

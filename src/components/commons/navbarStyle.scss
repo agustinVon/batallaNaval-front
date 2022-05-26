@@ -1,4 +1,5 @@
 @use '../../stylesUtils/colors';
+@use '../../stylesUtils/fontsizes.scss';
 
 nav {
     display: flex;
@@ -7,4 +8,10 @@ nav {
     padding: 10px 25px;
     height: 40px;
     background-color: colors.$darkGrey;
+}
+
+.navButton {
+    border: 0;
+    font-size: fontsizes.$small;
+    padding: 0;
 }
