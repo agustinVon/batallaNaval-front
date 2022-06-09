@@ -4,6 +4,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
 import { Auth0Provider } from '@auth0/auth0-react';
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);
@@ -14,8 +16,11 @@ root.render(
     domain="dev-rkrdgtgt.us.auth0.com"
     clientId={`${process.env.REACT_APP_CLIENT_ID}`}
     redirectUri="http://localhost:3000"
+    audience='https://batalla-naval.example.com'
     >
-      <App />
+      <DndProvider backend={HTML5Backend}>
+        <App />
+      </DndProvider>
     </Auth0Provider>
   </React.StrictMode>
 );

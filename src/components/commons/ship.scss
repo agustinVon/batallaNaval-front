@@ -1,0 +1,9 @@
+@use '../../stylesUtils/colors.scss';
+
+.ship {
+    width: 240px;
+    height: 40px;
+    border: 2px solid;
+    border-color: colors.$green;
+    border-radius: 10%;
+}

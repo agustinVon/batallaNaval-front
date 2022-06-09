@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react"
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useState } from "react"
 
 const getUserToken = async({ getAccessToken }: {getAccessToken: any}) => {
     try {
