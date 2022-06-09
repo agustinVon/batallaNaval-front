@@ -2,24 +2,36 @@ import React, { FormEvent, useEffect, useRef, useState } from 'react'
 import { CommonButton, SubmitButton } from './Button'
 import './chatBox.scss'
 import '../commons/buttonStyle.scss'
+import { useAuth0 } from '@auth0/auth0-react'
 
-export const ChatBox = () => {
+interface ChatProps {
+  ws : WebSocket
+}
+
+interface MessageData {
+  gameId: string,
+  senderId: string,
+  recipientId: string,
+  content: string
+}
+
+export const ChatBox = ({ws}:ChatProps) => {
+  const {user} = useAuth0()
   const submitMessage = (e:FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(message)
+    // const message:MessageData = {gameId: '', senderId: `${user?.sub}`, recipientId: `${}` }
+    ws.send(JSON.stringify({ from: user?.nickname, text:message }))
   }
 
   const [message, setMessage] = useState('')
-  const [ws, setWebsocket] = useState<WebSocket>()
+  const [messages, setMessages] = useState([
+    <Message user='Test' userColor='red' message='Test message'/>,
+    <Message user='Test1' userColor='blue' message='Test message1'/>,
+    <Message user='Test' userColor='red' message='Test message2'/>
+  ])
 
-  const join = () => {
-    const URL = "testURL"
-    setWebsocket(() => {
-        const ws = new WebSocket(URL);
-        ws.onmessage = () => {};
-        ws.onclose = () => {};
-        return ws;
-    })
+  ws.onmessage = (m) => {
+    console.log(m)
   }
 
   return (

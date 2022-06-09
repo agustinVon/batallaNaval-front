@@ -10,6 +10,18 @@ font-family: 'Poppins';
 }
 
 h1 {
+  font-size: fontSizes.$xLarge;
+}
+
+h2 {
   font-size: fontSizes.$large;
+}
+
+h3 {
+  font-size: fontSizes.$medium;
+}
+
+h4 {
+  font-size: fontSizes.$small;
 }
 

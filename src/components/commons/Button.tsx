@@ -3,7 +3,7 @@ import './buttonStyle.scss';
 
 interface ButtonProps {
   text: string;
-  width: number;
+  width?: number;
   onClick?: () => void;
   className?: string
 }
@@ -14,7 +14,7 @@ interface DropdownButtonProps {
   children: React.ReactNode;
 }
 
-export const CommonButton = ({ text, width, onClick, className }: ButtonProps) => {
+export const CommonButton = ({ text, width = 120, onClick, className }: ButtonProps) => {
   return (
     <button className={className} style={{width: width}} onClick = {onClick}>
       <label>{text}</label>
@@ -22,7 +22,7 @@ export const CommonButton = ({ text, width, onClick, className }: ButtonProps) =
   )
 }
 
-export const SubmitButton = ({ text, width, className }: ButtonProps) => {
+export const SubmitButton = ({ text, width = 120, className }: ButtonProps) => {
   return (
     <button className={className} type='submit' style={{width: width}}>
       <label>{text}</label>
@@ -30,7 +30,7 @@ export const SubmitButton = ({ text, width, className }: ButtonProps) => {
   )
 }
 
-export const DropdownButton = ({ children, text, width }: DropdownButtonProps) => {
+export const DropdownButton = ({ children, text, width = 120 }: DropdownButtonProps) => {
   const [expanded, setExpand] = useState(false)
 
   return (

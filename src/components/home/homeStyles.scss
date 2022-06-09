@@ -1,17 +1,67 @@
-@use '../../stylesUtils/colors';
+@use '../../stylesUtils/colors.scss';
+@use '../../stylesUtils/fontsizes.scss';
 
 .homePage {
     display: flex;
     flex-direction: column;
     width: 100%;
     height: 100%;
-}
 
-.homeBackground {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    flex:1;
-    background-color: colors.$grey;
+    h2 {
+        color: colors.$green;
+        margin: 0
+    }
+
+    h3 {
+        color: colors.$green;
+        margin: 0;
+    }
+
+    h4 {
+        margin: 0;
+    }
+
+    ul {
+        margin: 5px 20px;
+        list-style-type: none;
+    }
+
+    li {
+        color: colors.$green
+    }
+
+    .homeBackground {
+        padding: 20px 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        flex:1;
+        background-color: colors.$grey;
+        gap: 30px;
+
+        .horizontalContainer {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .bar {
+            flex: 1;
+            height: 2px;
+            background-color: colors.$green;
+        }
+
+        .statWrapper {
+            margin: 0 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            label {
+                color: colors.$green;
+                font-size: fontsizes.$small;
+            }
+        }
+    }
 }

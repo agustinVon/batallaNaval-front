@@ -1,0 +1,15 @@
+@use '../../stylesUtils/colors.scss';
+
+.square {
+    height: 40px;
+    width: 40px;
+    background-color: transparent;
+    border: 1px solid;
+    border-color: colors.$darkGreen;
+    opacity: 0.5;
+}
+
+.positionBoard {
+    height: 400px;
+    width: 400px;
+}

@@ -1,7 +1,5 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { Provider } from 'react-redux';
-import { store } from './app/store';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
@@ -17,9 +15,7 @@ root.render(
     clientId={`${process.env.REACT_APP_CLIENT_ID}`}
     redirectUri="http://localhost:3000"
     >
-      <Provider store={store}>
-        <App />
-      </Provider>
+      <App />
     </Auth0Provider>
   </React.StrictMode>
 );

@@ -12,7 +12,9 @@ export const Login = () => {
   const {isAuthenticated, loginWithRedirect} = useAuth0()
 
   useEffect(() => {
-    if(isAuthenticated) navigate('/home')
+    if(isAuthenticated) {
+      navigate('/home')
+    }
   }, [isAuthenticated]);
   return (
     <div className='loginPage'>
@@ -20,7 +22,7 @@ export const Login = () => {
       <div className='loginBackground'>
         <h1>Battleships</h1>
         <div >
-          <CommonButton className='mediumButton' text={"Login"} width={300} onClick={loginWithRedirect}/>
+          <CommonButton className='largeButton' text={"Login"} width={300} onClick={loginWithRedirect}/>
         </div>
       </div>
     </div>

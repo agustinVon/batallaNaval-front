@@ -1,7 +1,4 @@
-import React from 'react'
 import './navbarStyle.scss'
-import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { CommonButton } from './Button'
 import { useAuth0 } from '@auth0/auth0-react'
 
