@@ -1,10 +1,19 @@
 import React from 'react'
 import './boardStyle.scss'
 
-export const Board = () => {
+interface BoardProps {
+  shipPositions: ShipPosition[]
+}
+
+interface ShipPosition {
+  block: number,
+  shifted: boolean,
+  shipLength: number 
+}
+
+export const Board = ({shipPositions}:BoardProps) => {
   return (
     <div className='positionBoard'>
-        
     </div>
   )
 }
