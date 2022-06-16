@@ -9,6 +9,7 @@ import { Ship } from '../commons/Ship';
 
 export const Game = () => {
 
+    const userId = localStorage.getItem("userId")
     const [shipPositions, setShipPositions] = useState<ShipPosition[]>([
         {
             shifted: false,
@@ -32,13 +33,6 @@ export const Game = () => {
         },
     ])
     const [shipSelected, setShipSelected] = useState<ShipPosition>(shipPositions[0])
-
-    const submitMessage = (e:FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log(message)
-    }
-
-    const [message, setMessage] = useState('')
     const [ws, setWebsocket] = useState<WebSocket>()
 
     const setShipPosition = (block:number) => {
@@ -87,11 +81,11 @@ export const Game = () => {
     useEffect(() => {
         if(!ws) {
             console.log('connect')
-            const URL = "ws://localhost:8080/message/room"
+            const URL = "ws://localhost:8080/game/join-game"
             setWebsocket(() => {
             const ws = new WebSocket(URL);
-            ws.onmessage = () => {};
-            ws.onclose = () => {};
+            ws.onmessage = (m) => {console.log(m)};
+            ws.onclose = (c) => {console.log(c)};
             return ws;
             })
         }
@@ -129,7 +123,7 @@ export const Game = () => {
                 </ul>
             </div>
             <Board selectShip={selectShipInBlock} selectedShip={shipSelected} setShipPosition={setShipPosition} shipPositions={shipPositions}  />
-            <ChatBox ws={ws}/>
+            <ChatBox ws={ws} userId={`${userId}`}/>
             </>
             : <>
             <div>

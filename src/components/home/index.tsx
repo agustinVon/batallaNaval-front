@@ -7,14 +7,27 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrophy, faShip } from '@fortawesome/free-solid-svg-icons';
 import { getProfileData } from '../../utils/api';
 
+interface ProfileData {
+  email: string,
+  games: [],
+  id: string,
+  name:string,
+  streak: number,
+  surname: string,
+  winRate: number
+}
+
 export const Home = () => {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(true)
-  const [profileData, setProfileData] = useState<any>()
+  const [profileData, setProfileData] = useState<ProfileData>()
   
   useEffect(() => {
     if (!profileData) getProfileData("").then(data => {
-      setProfileData(data)
+      data.json().then(json =>{
+        setProfileData(json)
+        localStorage.setItem('userId', `${json.id}`)
+      })
       setLoading(false)
     })
   },[profileData])
@@ -23,7 +36,7 @@ export const Home = () => {
     <div className='homePage'>
       <Navbar/>
       <div className='homeBackground'>
-        <h2>Welcome back nickname</h2>
+        <h2>Welcome back {profileData?.name}</h2>
         <div>
           <div className='horizontalContainer' style={{width: 500}}>
             <h3>Last matches played</h3>

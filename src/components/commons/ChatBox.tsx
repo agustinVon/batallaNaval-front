@@ -4,7 +4,8 @@ import './chatBox.scss'
 import '../commons/buttonStyle.scss'
 
 interface ChatProps {
-  ws : WebSocket
+  ws : WebSocket,
+  userId: string
 }
 
 interface MessageData {
@@ -14,11 +15,13 @@ interface MessageData {
   content: string
 }
 
-export const ChatBox = ({ws}:ChatProps) => {
+export const ChatBox = ({ws, userId}:ChatProps) => {
   const submitMessage = (e:FormEvent<HTMLFormElement>) => {
+    console.log("SUBMIT")
     e.preventDefault();
     // const message:MessageData = {gameId: '', senderId: `${user?.sub}`, recipientId: `${}` }
-    ws.send(JSON.stringify({ from: "nickname", text:message }))
+    console.log({gameID:null, senderId: userId, recipientId: null, content: message })
+    ws.send(JSON.stringify({gameID:null, senderId: userId, recipientId: null, content: message }))
   }
 
   const [message, setMessage] = useState('')
