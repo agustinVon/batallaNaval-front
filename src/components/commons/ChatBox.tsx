@@ -2,7 +2,6 @@ import React, { FormEvent, useEffect, useRef, useState } from 'react'
 import { CommonButton, SubmitButton } from './Button'
 import './chatBox.scss'
 import '../commons/buttonStyle.scss'
-import { useAuth0 } from '@auth0/auth0-react'
 
 interface ChatProps {
   ws : WebSocket
@@ -16,11 +15,10 @@ interface MessageData {
 }
 
 export const ChatBox = ({ws}:ChatProps) => {
-  const {user} = useAuth0()
   const submitMessage = (e:FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // const message:MessageData = {gameId: '', senderId: `${user?.sub}`, recipientId: `${}` }
-    ws.send(JSON.stringify({ from: user?.nickname, text:message }))
+    ws.send(JSON.stringify({ from: "nickname", text:message }))
   }
 
   const [message, setMessage] = useState('')
