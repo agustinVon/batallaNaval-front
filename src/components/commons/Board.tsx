@@ -8,7 +8,7 @@ interface BoardProps {
   shipPositions: ShipPosition[],
   setShipPosition: (i:number) => void
   selectShip: (i:number) => void,
-  selectedShip: number
+  selectedShip: ShipPosition
 }
 
 interface SquareProps {
@@ -20,17 +20,22 @@ interface SquareProps {
 
 export const Board = ({shipPositions, setShipPosition, selectShip, selectedShip}:BoardProps) => {
   const renderSquare = (i: number) => {
-    const shipInSquare = shipPositions.find(position => position.block === i)
-    const shipHorizontalOverBlock = shipPositions.filter((position, index) => !position.shifted && index !== selectedShip)
-    .find(position => ((position.block || 0) - i < shipPositions[selectedShip].shipLength && (position.block || 0) - i > 0) 
-    || (i - (position.block || 0) < position.shipLength && i - (position.block || 0) > 0 ))
-    const shipHorizontalBlock = i % 10 > shipPositions[selectedShip].shipLength
-
-    console.log(shipPositions[selectedShip].shipLength)
+    const shipInSquare = shipPositions.find(position => position?.blocksOccupied?.at(0) === i)
+    const blockedByShip = shipPositions.find(position => position?.blocksOccupied?.find(block => {
+      if(selectedShip.shifted) {
+        if (block % 10 === i % 10) {
+          return block/10 - i/10 < selectedShip.shipLength && block/10 - i/10 >= 0
+        }
+      } else {
+        return block - i < selectedShip.shipLength && block - i >= 0
+      }
+    }))
+    const horizontalLimits = !selectedShip.shifted && i % 10 > 10 - selectedShip.shipLength
+    const verticalLimits = selectedShip.shifted && i/10 > 11 - selectedShip.shipLength
 
     return <BoardSquare setShipPosition={setShipPosition} number={i} 
-    blocked={!!shipInSquare || !!shipHorizontalOverBlock || shipHorizontalBlock}>
-      {shipInSquare && <Ship select={() => selectShip(i)} length={shipInSquare?.shipLength}/>}
+    blocked={!!shipInSquare || !!blockedByShip || horizontalLimits || verticalLimits}>
+      {shipInSquare && <Ship shifted={shipInSquare.shifted} select={() => selectShip(i)} length={shipInSquare?.shipLength}/>}
       </BoardSquare>
   }
 

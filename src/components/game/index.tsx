@@ -9,8 +9,6 @@ import { Ship } from '../commons/Ship';
 
 export const Game = () => {
 
-    console.log('RUN')
-
     const [shipPositions, setShipPositions] = useState<ShipPosition[]>([
         {
             shifted: false,
@@ -18,22 +16,22 @@ export const Game = () => {
         },
         {
             shifted: false,
-            shipLength: 5
+            shipLength: 4
         },
         {
             shifted: false,
-            shipLength: 5
+            shipLength: 4
         },
         {
             shifted: false,
-            shipLength: 5
+            shipLength: 3
         },
         {
             shifted: false,
-            shipLength: 5
+            shipLength: 2
         },
     ])
-    const [shipSelected, setShipSelected] = useState<number>()
+    const [shipSelected, setShipSelected] = useState<ShipPosition>(shipPositions[0])
 
     const submitMessage = (e:FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -43,14 +41,21 @@ export const Game = () => {
     const [message, setMessage] = useState('')
     const [ws, setWebsocket] = useState<WebSocket>()
 
-    console.log('run')
-
     const setShipPosition = (block:number) => {
         setShipPositions(shipPositions.map((position, index) => {
-            if (index === shipSelected) {
+            if (index === shipPositions.indexOf(shipSelected)) {
+                let blocksOccupied = []
+                for(let i = 0; i < shipSelected.shipLength; i++){
+                    if(shipSelected.shifted) {
+                        blocksOccupied.push(block + 10 * i)
+                    } else {
+                        blocksOccupied.push(block + i)
+                    }
+                }
                 return {
                     ...position,
-                    block: block
+                    block: block,
+                    blocksOccupied: blocksOccupied
                 }
             }
             else {
@@ -59,11 +64,30 @@ export const Game = () => {
         }))
     }
 
+    const setShipShift = ({key}:{key:String}) => {
+        if (key === 'Shift') {
+            setShipPositions(prevPositions => prevPositions.map((position) => {
+            if (position.blocksOccupied === undefined) {
+                return {
+                    ...position,
+                    shifted: !position.shifted
+                }
+            }
+            else {
+                return position
+            }}))  
+        }
+    }
+
+    useEffect(() => {
+        console.log(shipPositions)
+    }, [shipPositions])
+
 
     useEffect(() => {
         if(!ws) {
             console.log('connect')
-            const URL = "ws://localhost:3010/gameChat/chat"
+            const URL = "ws://localhost:8080/message/room"
             setWebsocket(() => {
             const ws = new WebSocket(URL);
             ws.onmessage = () => {};
@@ -74,8 +98,19 @@ export const Game = () => {
     }, [ws])
 
     const selectShipInBlock = (block:number) => {
-        setShipSelected(shipPositions.findIndex(position => position.block === block))
+        setShipSelected(shipPositions.find(position => position?.blocksOccupied?.at(0) === block) || shipPositions[0])
     }
+
+    useEffect(() => {
+        window.addEventListener("keydown", setShipShift);
+        window.addEventListener("keyup", setShipShift);
+        // Remove event listeners on cleanup
+        return () => {
+        window.removeEventListener("keydown", setShipShift);
+        window.removeEventListener("keyup", setShipShift);
+        };
+    }, [])
+
 
     return (
         <div className='gamePage'>
@@ -84,30 +119,30 @@ export const Game = () => {
             {!!ws
             ? <>
             <div>
-            <h4>Ships</h4>
+                <h4>Ships</h4>
                 <ul>
                     {shipPositions.map((position, index) => (
-                        !position.block && <li key={index}>
-                            <Ship select={() => setShipSelected(index)} length={position.shipLength}/>
+                        !position.blocksOccupied && <li key={index}>
+                            <Ship shifted={position.shifted} select={() => setShipSelected(position)} length={position.shipLength}/>
                         </li>
                     ))}
                 </ul>
             </div>
-            <Board selectShip={selectShipInBlock} selectedShip={shipSelected || 0} setShipPosition={setShipPosition} shipPositions={shipPositions}  />
+            <Board selectShip={selectShipInBlock} selectedShip={shipSelected} setShipPosition={setShipPosition} shipPositions={shipPositions}  />
             <ChatBox ws={ws}/>
             </>
             : <>
             <div>
-            <h4>Ships</h4>
+                <h4>Ships</h4>
                 <ul>
                     {shipPositions.map((position, index) => (
                         <li key={index}>
-                            <Ship select={() => setShipSelected(index)} length={position.shipLength}/>
+                            <Ship shifted={position?.shifted} select={() => setShipSelected(position)} length={position.shipLength}/>
                         </li>
                     ))}
                 </ul>
             </div>
-            <Board selectShip={selectShipInBlock} selectedShip={shipSelected || 0} setShipPosition={setShipPosition} shipPositions={shipPositions}  />
+            <Board selectShip={selectShipInBlock} selectedShip={shipSelected} setShipPosition={setShipPosition} shipPositions={shipPositions}  />
             </>
             }
         </div>

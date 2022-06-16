@@ -1,5 +1,5 @@
 export interface ShipPosition {
-    block?: number,
+    blocksOccupied?: number[]
     shifted: boolean,
     shipLength: number 
 }
