@@ -3,3 +3,8 @@ export interface ShipPosition {
     shifted: boolean,
     shipLength: number 
 }
+
+export interface Shot {
+    block: number,
+    hit: boolean
+}

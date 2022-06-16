@@ -34,3 +34,19 @@
 h4 {
     color: colors.$green
 }
+
+.positioningWrapper {
+    display: flex;
+    gap: 10px;
+}
+
+.positioningBackground {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap:20px;
+}
+
+.positionsListWrapper {
+    width:300px
+}
