@@ -35,12 +35,12 @@ h4 {
     color: colors.$green
 }
 
-.positioningWrapper {
+.horizontalWrapper {
     display: flex;
     gap: 10px;
 }
 
-.positioningBackground {
+.verticalBackground {
     display: flex;
     flex-direction: column;
     align-items: center;

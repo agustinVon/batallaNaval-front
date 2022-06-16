@@ -6,11 +6,11 @@ import { ShipPosition } from '../commons/types';
 import './gameStyle.scss'
 import { Ship } from '../commons/Ship';
 import { Positioning } from './positioning';
-import { StompSessionProvider } from 'react-stomp-hooks';
+import { StompSessionProvider, useStompClient } from 'react-stomp-hooks';
+import { Fire } from './fire';
 
 
 export const Game = () => {
-
     const userId = localStorage.getItem("userId")
     const [shipPositions, setShipPositions] = useState<ShipPosition[]>([
         {
@@ -43,12 +43,17 @@ export const Game = () => {
         //         positions: shipPositions.map(pos => pos.blocksOccupied?.map(block => ({x: block % 10, y: block/10}))).flat()
         //     }))
         // }
+        setGameState("Waiting")
     }
 
     const getScreen = () => {
         switch(gameState) {
             case 'Positioning':
                 return <Positioning positions={shipPositions} setPositions={setShipPositions} sendPositions={onSendPositions}/>
+            case 'Waiting':
+                return <Fire waiting={false} positions={shipPositions} myShots={[{block: 30, hit: true}]} enemyShots={[{block: 47, hit: false}]}/>
+            case 'Shooting':
+                return <Fire waiting={false} positions={shipPositions} myShots={[{block: 30, hit: true}]} enemyShots={[{block: 47, hit: false}]}/>
         }
     }
 

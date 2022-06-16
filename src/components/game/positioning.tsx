@@ -68,8 +68,8 @@ export const Positioning = ({positions, setPositions, sendPositions}:Props) => {
     }
 
     return (
-        <div className='positioningBackground'>
-            <div className='positioningWrapper'>
+        <div className='verticalBackground'>
+            <div className='horizontalWrapper'>
                 <div className='positionsListWrapper'>
                     <h4>Ships</h4>
                     <ul>
