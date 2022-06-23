@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrophy, faShip } from '@fortawesome/free-solid-svg-icons';
-import { getProfileData } from '../../utils/api';
+import { joinNewGame, getProfileData } from '../../utils/api';
 
 interface ProfileData {
   email: string,
@@ -21,16 +21,26 @@ export const Home = () => {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(true)
   const [profileData, setProfileData] = useState<ProfileData>()
+  const [userId, setUserId] = useState<String>("")
   
   useEffect(() => {
     if (!profileData) getProfileData("").then(data => {
       data.json().then(json =>{
         setProfileData(json)
+        setUserId(json.id)
         localStorage.setItem('userId', `${json.id}`)
       })
       setLoading(false)
     })
   },[profileData])
+
+  const onGameJoin = () => {
+    joinNewGame(userId).then(data => {
+      if(data.status === 200) {
+        data.text().then(url => navigate(url))
+      }
+    })
+  }
 
   return (
     <div className='homePage'>
@@ -62,7 +72,7 @@ export const Home = () => {
           </div>
         </div>
         <div className='horizontalContainer'>
-          <CommonButton className='mediumButton' onClick={() => navigate('/game')} text='Join game' />
+          <CommonButton className='mediumButton' onClick={onGameJoin} text='Join game' />
         </div>
         </>
         }

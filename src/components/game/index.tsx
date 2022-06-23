@@ -9,11 +9,12 @@ import { Positioning } from './positioning';
 import { useStompClient, useSubscription } from 'react-stomp-hooks';
 import { Fire } from './fire';
 import { WaitingForOponent } from './waitingForOponent';
+import { useParams } from 'react-router-dom';
 
 
 export const Game = () => {
+    const gameID = useParams().gameID;
     const userId = localStorage.getItem("userId")
-    console.log(userId)
     const client = useStompClient()
     const [shipPositions, setShipPositions] = useState<ShipPosition[]>([
         {
@@ -48,26 +49,22 @@ export const Game = () => {
 
     useSubscription("/game/status", response => {
         const gameStatus = JSON.parse(response.body)
-        console.log("GAME STATUS:", gameStatus)
+        console.log(gameStatus)
+        setGameState(gameStatus.status)
     })
 
     const onSendPositions = () => {
-        // if(ws && ws.OPEN) {
-        //     ws.send(JSON.stringify({
-        //         userId: userId,
-        //         positions: shipPositions.map(pos => pos.blocksOccupied?.map(block => ({x: block % 10, y: block/10}))).flat()
-        //     }))
-        // }
-        setGameState("Waiting")
+        console.log('SENDING SHIPS POSITIONS')
+        setGameState("Shooting")
     }
 
     const getScreen = () => {
         switch(gameState) {
-            case 'WaitingForOponent':
+            case 'WAITING_FOR_OPPONENT':
                 return <WaitingForOponent/>
-            case 'Positioning':
+            case 'ORDERING_SHIPS':
                 return <Positioning positions={shipPositions} setPositions={setShipPositions} sendPositions={onSendPositions}/>
-            case 'Waiting':
+            case 'Waiting' || 'WAITING_FOR_OPPONENT_TO_ORDER_SHIPS':
                 return <Fire waiting={false} positions={shipPositions} myShots={[{block: 30, hit: true}]} enemyShots={[{block: 47, hit: false}]}/>
             case 'Shooting':
                 return <Fire waiting={false} positions={shipPositions} myShots={[{block: 30, hit: true}]} enemyShots={[{block: 47, hit: false}]}/>
