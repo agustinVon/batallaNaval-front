@@ -23,7 +23,7 @@ export const ChatBox = ({userId}:ChatProps) => {
       console.log('Submited')
       client.publish({
         destination:"/app/secured/room",
-        body: JSON.stringify({senderId: userId, content: message })
+        body: JSON.stringify({chat: "123",senderId: userId, content: message })
       })
     }
   }
