@@ -28,16 +28,17 @@ export const ChatBox = ({userId}:ChatProps) => {
     }
   }
 
-  useSubscription("/game/chat", message => {
-    console.log(message.body)
+  useSubscription("/game/chat", response => {
+    const messageReceived = JSON.parse(response.body)
+    setMessages(prevValue => [...prevValue, ({senderName: messageReceived.senderName, content: messageReceived.content})])
   })
 
   return (
     <div className='chatContainer'>
         <div className='chat'>
-            <Message user='Test' userColor='red' message='Test message'/>
-            <Message user='Test1' userColor='blue' message='Test message1'/>
-            <Message user='Test' userColor='red' message='Test message2'/>
+          {messages.map((mes, index) => (
+            <Message key={index} user={mes.senderName} userColor='blue' message={mes.content}/>
+          ))}
         </div>
         <form className='chatInputContainer' onSubmit={submitMessage}>
             <input onChange={(e) => setMessage(e.target.value)}></input>

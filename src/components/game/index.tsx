@@ -6,12 +6,15 @@ import { ShipPosition } from '../commons/types';
 import './gameStyle.scss'
 import { Ship } from '../commons/Ship';
 import { Positioning } from './positioning';
-import { StompSessionProvider, useStompClient } from 'react-stomp-hooks';
+import { useStompClient, useSubscription } from 'react-stomp-hooks';
 import { Fire } from './fire';
+import { WaitingForOponent } from './waitingForOponent';
 
 
 export const Game = () => {
     const userId = localStorage.getItem("userId")
+    console.log(userId)
+    const client = useStompClient()
     const [shipPositions, setShipPositions] = useState<ShipPosition[]>([
         {
             shifted: false,
@@ -34,7 +37,18 @@ export const Game = () => {
             shipLength: 2
         },
     ])
-    const [gameState, setGameState] = useState('Positioning')
+    const [gameState, setGameState] = useState('WaitingForOponent')
+    useEffect(() => {
+        console.log("JOINING")
+        client?.publish({
+            destination:"/app/join-game",
+            body: JSON.stringify({userId: userId})
+        })
+    },[])
+    useSubscription("/game/status", response => {
+        const gameStatus = response.body
+        console.log("GAME STATUS:", gameStatus)
+    })
 
     const onSendPositions = () => {
         // if(ws && ws.OPEN) {
@@ -48,6 +62,8 @@ export const Game = () => {
 
     const getScreen = () => {
         switch(gameState) {
+            case 'WaitingForOponent':
+                return <WaitingForOponent/>
             case 'Positioning':
                 return <Positioning positions={shipPositions} setPositions={setShipPositions} sendPositions={onSendPositions}/>
             case 'Waiting':
@@ -59,7 +75,6 @@ export const Game = () => {
 
 
     return (
-        <StompSessionProvider url='http://localhost:8080/batalla-naval'>
             <div className='gamePage'>
                 <Navbar/>
                 <div className='gameBackground'>
@@ -69,6 +84,5 @@ export const Game = () => {
                     </>
                 </div>
             </div>
-        </StompSessionProvider>
     )
 }

@@ -36,6 +36,9 @@ export const Home = () => {
     <div className='homePage'>
       <Navbar/>
       <div className='homeBackground'>
+        {loading 
+        ? <h3>Loading</h3>
+        : <>
         <h2>Welcome back {profileData?.name}</h2>
         <div>
           <div className='horizontalContainer' style={{width: 500}}>
@@ -61,6 +64,8 @@ export const Home = () => {
         <div className='horizontalContainer'>
           <CommonButton className='mediumButton' onClick={() => navigate('/game')} text='Join game' />
         </div>
+        </>
+        }
       </div>
     </div>
   )

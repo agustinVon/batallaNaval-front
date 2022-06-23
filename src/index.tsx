@@ -6,6 +6,7 @@ import './index.css';
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import { StompSessionProvider } from 'react-stomp-hooks';
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);
@@ -14,7 +15,9 @@ root.render(
   <React.StrictMode>
     <GoogleOAuthProvider clientId={`${process.env.REACT_APP_GOOGLE_CLIENT_ID}`}>
       <DndProvider backend={HTML5Backend}>
-        <App />
+        <StompSessionProvider url='http://localhost:8080/batalla-naval'>
+          <App />
+        </StompSessionProvider>
       </DndProvider>
     </GoogleOAuthProvider>
   </React.StrictMode>
