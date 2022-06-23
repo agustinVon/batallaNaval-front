@@ -45,8 +45,9 @@ export const Game = () => {
             body: JSON.stringify({userId: userId})
         })
     },[])
+
     useSubscription("/game/status", response => {
-        const gameStatus = response.body
+        const gameStatus = JSON.parse(response.body)
         console.log("GAME STATUS:", gameStatus)
     })
 
