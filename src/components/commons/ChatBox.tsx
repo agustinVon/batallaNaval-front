@@ -18,6 +18,7 @@ export const ChatBox = ({userId}:ChatProps) => {
   const [messages, setMessages] = useState<MessageData[]>([])
   const client = useStompClient()
   const submitMessage = (e:FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     if (client) {
       console.log('Submited')
       client.publish({
