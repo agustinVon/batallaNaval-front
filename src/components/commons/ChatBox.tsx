@@ -9,26 +9,27 @@ interface ChatProps {
 }
 
 interface MessageData {
-  gameId: string,
-  senderId: string,
-  recipientId: string,
+  senderName: string,
   content: string
 }
 
 export const ChatBox = ({userId}:ChatProps) => {
+  const [message, setMessage] = useState('')
+  const [messages, setMessages] = useState<MessageData[]>([])
   const client = useStompClient()
   const submitMessage = (e:FormEvent<HTMLFormElement>) => {
     if (client) {
+      console.log('Submited')
       client.publish({
-        destination:"/game/chat",
-        body: JSON.stringify({gameID:null, senderId: userId, recipientId: null, content: message })
+        destination:"/secured/room",
+        body: JSON.stringify({senderId: userId, content: message })
       })
     }
   }
 
-  const [message, setMessage] = useState('')
-
-  useSubscription("/game/chat", message => console.log(message))
+  useSubscription("/game/chat", message => {
+    console.log(message.body)
+  })
 
   return (
     <div className='chatContainer'>

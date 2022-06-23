@@ -59,7 +59,7 @@ export const Game = () => {
 
 
     return (
-        <StompSessionProvider url='http://localhost:8080/secured/room'>
+        <StompSessionProvider url='http://localhost:8080/batalla-naval'>
             <div className='gamePage'>
                 <Navbar/>
                 <div className='gameBackground'>
