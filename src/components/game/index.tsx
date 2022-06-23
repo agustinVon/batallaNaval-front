@@ -41,7 +41,7 @@ export const Game = () => {
     useEffect(() => {
         console.log("JOINING")
         client?.publish({
-            destination:"/app/gameRoom/join-game",
+            destination:"/app/joinGame",
             body: JSON.stringify({userId: userId})
         })
     },[])
