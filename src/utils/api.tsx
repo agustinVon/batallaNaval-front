@@ -16,8 +16,9 @@ export const getProfileData = async(token:String) => {
     })
 }
 export const joinNewGame = async(userId: String) => {
-    return await fetch(`${URL}/gameRoom/join`, {
+    return await fetch(`${URL}/game/join`, {
         method: 'POST',
+        headers: new Headers({'Accept': 'application/json', 'Content-Type': 'application/json'}),
         body: JSON.stringify({ userId })
     })
 }
