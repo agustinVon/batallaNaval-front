@@ -10,6 +10,7 @@ import { useStompClient, useSubscription } from 'react-stomp-hooks';
 import { Fire } from './fire';
 import { WaitingForOponent } from './waitingForOponent';
 import { useParams } from 'react-router-dom';
+import { convertPositionsToBackendPositions } from '../../utils/utils';
 
 
 export const Game = () => {
@@ -59,10 +60,11 @@ export const Game = () => {
     const onSendPositions = () => {
         console.log('SENDING SHIPS POSITIONS')
         setGameState("Shooting")
-        client?.publish({
-            destination:"/set-ship-position",
-            body: JSON.stringify({gameId, userId, shipPositions})
-        })
+        console.log(convertPositionsToBackendPositions(shipPositions))
+        // client?.publish({
+        //     destination:"/set-ship-position",
+        //     body: JSON.stringify({gameId, userId, shipPositions})
+        // })
     }
 
     const getScreen = () => {
@@ -86,7 +88,8 @@ export const Game = () => {
                 <Navbar/>
                 <div className='gameBackground'>
                     <>
-                        {getScreen()}
+                        {/*getScreen()*/}
+                        <Positioning positions={shipPositions} setPositions={setShipPositions} sendPositions={onSendPositions}/>
                         <ChatBox userId={`${userId}`} gameId={`${gameId}`}/>
                     </>
                 </div>
