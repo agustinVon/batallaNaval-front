@@ -1,5 +1,10 @@
+export interface Coordinates {
+    x:number,
+    y:number
+}
+
 export interface ShipPosition {
-    blocksOccupied?: number[]
+    blocksOccupied?: Coordinates[]
     shifted: boolean,
     shipLength: number 
 }
