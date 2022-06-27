@@ -12,7 +12,7 @@ interface Props {
 
 export const CommonBoard = ({shots, positions, selectedSquare, onSelect}:Props) => {
     const renderSquare = (i: number) => {
-        const shipInSquare = positions?.find(position => position?.blocksOccupied?.at(0) === i)
+        const shipInSquare = positions?.find(position => position?.blocksOccupied?.at(0)?.x === i % 10 && position?.blocksOccupied?.at(0)?.y === i / 10)
         const blockShooted = shots?.find(shot => shot.block === i)
 
         const onSelectBlock = () => {

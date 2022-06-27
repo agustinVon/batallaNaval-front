@@ -20,14 +20,14 @@ interface SquareProps {
 
 export const Board = ({shipPositions, setShipPosition, selectShip, selectedShip}:BoardProps) => {
   const renderSquare = (i: number) => {
-    const shipInSquare = shipPositions.find(position => position?.blocksOccupied?.at(0) === i)
+    const shipInSquare = shipPositions.find(position => position?.blocksOccupied?.at(0)?.x === i % 10 && position?.blocksOccupied?.at(0)?.y === i / 10)
     const blockedByShip = shipPositions.find(position => position?.blocksOccupied?.find(block => {
       if(selectedShip.shifted) {
-        if (block % 10 === i % 10) {
-          return block/10 - i/10 < selectedShip.shipLength && block/10 - i/10 >= 0
+        if (block.y === i % 10) {
+          return block.y - i/10 < selectedShip.shipLength && block.y - i/10 >= 0
         }
       } else {
-        return block - i < selectedShip.shipLength && block - i >= 0
+        return block.x - i < selectedShip.shipLength && block.x - i >= 0
       }
     }))
     const horizontalLimits = !selectedShip.shifted && i % 10 > 10 - selectedShip.shipLength

@@ -13,7 +13,8 @@ import { useParams } from 'react-router-dom';
 
 
 export const Game = () => {
-    const gameID = useParams().gameID;
+    const gameId = useParams().gameId;
+    console.log(`GAME ID: ${gameId}`)
     const userId = localStorage.getItem("userId")
     const client = useStompClient()
     const [shipPositions, setShipPositions] = useState<ShipPosition[]>([
@@ -39,15 +40,17 @@ export const Game = () => {
         },
     ])
     const [gameState, setGameState] = useState('WaitingForOponent')
+    console.log(shipPositions)
+
     useEffect(() => {
         console.log("JOINING")
         client?.publish({
             destination:"/app/joinGame",
-            body: JSON.stringify({userId: userId})
+            body: JSON.stringify({gameId:gameId})
         })
     },[])
 
-    useSubscription("/game/status", response => {
+    useSubscription(`/game/${gameId}/status`, response => {
         const gameStatus = JSON.parse(response.body)
         console.log(gameStatus)
         setGameState(gameStatus.status)
@@ -56,6 +59,10 @@ export const Game = () => {
     const onSendPositions = () => {
         console.log('SENDING SHIPS POSITIONS')
         setGameState("Shooting")
+        client?.publish({
+            destination:"/set-ship-position",
+            body: JSON.stringify({gameId, userId, shipPositions})
+        })
     }
 
     const getScreen = () => {
@@ -64,10 +71,12 @@ export const Game = () => {
                 return <WaitingForOponent/>
             case 'ORDERING_SHIPS':
                 return <Positioning positions={shipPositions} setPositions={setShipPositions} sendPositions={onSendPositions}/>
-            case 'Waiting' || 'WAITING_FOR_OPPONENT_TO_ORDER_SHIPS':
+            case 'WAITING_FOR_OPPONENT_TO_ORDER_SHIPS':
                 return <Fire waiting={false} positions={shipPositions} myShots={[{block: 30, hit: true}]} enemyShots={[{block: 47, hit: false}]}/>
-            case 'Shooting':
+            case 'PLAYING':
                 return <Fire waiting={false} positions={shipPositions} myShots={[{block: 30, hit: true}]} enemyShots={[{block: 47, hit: false}]}/>
+            case 'FINISHED':
+                return <h1>FINISHED</h1>
         }
     }
 
@@ -78,7 +87,7 @@ export const Game = () => {
                 <div className='gameBackground'>
                     <>
                         {getScreen()}
-                        <ChatBox userId={`${userId}`}/>
+                        <ChatBox userId={`${userId}`} gameId={`${gameId}`}/>
                     </>
                 </div>
             </div>

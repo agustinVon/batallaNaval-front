@@ -37,7 +37,9 @@ export const Home = () => {
   const onGameJoin = () => {
     joinNewGame(userId).then(data => {
       if(data.status === 200) {
-        data.json().then(url => navigate(url))
+        data.json().then(url => {
+          navigate(`/game/${url.gameId}`)
+        })
       }
     })
   }

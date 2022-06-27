@@ -21,14 +21,13 @@ export const Positioning = ({positions, setPositions, sendPositions}:Props) => {
                 let blocksOccupied = []
                 for(let i = 0; i < shipSelected.shipLength; i++){
                     if(shipSelected.shifted) {
-                        blocksOccupied.push(block + 10 * i)
+                        blocksOccupied.push({ x: block % 10, y: block / 10 + i})
                     } else {
-                        blocksOccupied.push(block + i)
+                        blocksOccupied.push({ x: block % 10 + i, y: block / 10})
                     }
                 }
                 return {
                     ...position,
-                    block: block,
                     blocksOccupied: blocksOccupied
                 }
             }
@@ -64,7 +63,7 @@ export const Positioning = ({positions, setPositions, sendPositions}:Props) => {
     }
 
     const selectShipInBlock = (block:number) => {
-        setShipSelected(positions.find(position => position?.blocksOccupied?.at(0) === block) || positions[0])
+        setShipSelected(positions.find(position => (position?.blocksOccupied?.at(0)?.x === block % 10 && position?.blocksOccupied?.at(0)?.y === block / 10)) || positions[0])
     }
 
     return (
