@@ -5,7 +5,8 @@ import '../commons/buttonStyle.scss'
 import { useSubscription, useStompClient } from "react-stomp-hooks";
 
 interface ChatProps {
-  userId: string
+  userId: string,
+  gameId: string
 }
 
 interface MessageData {
@@ -13,22 +14,22 @@ interface MessageData {
   content: string
 }
 
-export const ChatBox = ({userId}:ChatProps) => {
+export const ChatBox = ({userId, gameId}:ChatProps) => {
   const [message, setMessage] = useState('')
   const [messages, setMessages] = useState<MessageData[]>([])
   const client = useStompClient()
   const submitMessage = (e:FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (client) {
-      console.log('Submited')
+      console.log('Submited', gameId)
       client.publish({
         destination:"/app/secured/room",
-        body: JSON.stringify({chat: "123",senderId: userId, content: message })
+        body: JSON.stringify({gameId, senderId: userId, content: message })
       })
     }
   }
 
-  useSubscription("/game/chat", response => {
+  useSubscription(`/game/${gameId}/chat`, response => {
     const messageReceived = JSON.parse(response.body)
     setMessages(prevValue => [...prevValue, ({senderName: messageReceived.senderName, content: messageReceived.content})])
   })
