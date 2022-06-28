@@ -9,8 +9,8 @@ interface Props {
     positions: ShipPosition[],
     myShots: Shot[],
     enemyShots: Shot[],
-    waiting: boolean
-    gameId: string
+    waiting: boolean,
+    onFire?: (block: number) => void
 }
 
 export const EXPLOSION_STATUS = {
@@ -19,7 +19,7 @@ export const EXPLOSION_STATUS = {
   waiting: 'WAITING'
 }
 
-export const Fire = ({positions, myShots, enemyShots, waiting, gameId}:Props) => {
+export const Fire = ({positions, myShots, enemyShots, onFire, waiting}:Props) => {
 
   console.log('WAITING', waiting)
 
@@ -38,7 +38,7 @@ export const Fire = ({positions, myShots, enemyShots, waiting, gameId}:Props) =>
             {!waiting ? <CommonBoard shots={myShots} onSelect={setSelectedSquare} selectedSquare={selectedSqare} />
             : <CommonBoard shots={myShots} /> }
         </div>
-        {waiting ? <label className='waiting-label'>{`Waiting for oponent to shoot`}</label> : <CommonButton text='FIRE' className='mediumButton'/>}
+        {waiting ? <label className='waiting-label'>{`Waiting for oponent to shoot`}</label> : <CommonButton text='FIRE' className='mediumButton' onClick={() => (onFire && selectedSqare) && onFire(selectedSqare)}/>}
     </div>
   )
 }

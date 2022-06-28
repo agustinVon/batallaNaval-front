@@ -10,7 +10,7 @@ import { useStompClient, useSubscription } from 'react-stomp-hooks';
 import { Fire } from './fire';
 import { WaitingForOponent } from './waitingForOponent';
 import { useParams } from 'react-router-dom';
-import { convertCoordinateToNumber, convertPositionsToBackendPositions, getShipPositions } from '../../utils/utils';
+import { convertCoordinateToNumber, convertNumberToCoordinates, convertPositionsToBackendPositions, getShipPositions } from '../../utils/utils';
 
 
 export const Game = () => {
@@ -64,10 +64,12 @@ export const Game = () => {
         const userStatus = JSON.parse(response.body)
         console.log('USER STATUS: ', userStatus)
         setUserState(userStatus.status)
-        const gameInfo = userStatus.gameRoomDto
-        setShipPositions(gameInfo.myShips.map((ship:any) => getShipPositions(ship)))
-        setMyShots(gameInfo.shootsTaken.map((shot:any) => ({block: convertCoordinateToNumber({x: shot.x, y: shot.y}), hit: shot.hit})))
-        setEnemyShots(gameInfo.shotsReceived((shot:any) => ({block: convertCoordinateToNumber({x: shot.x, y: shot.y}), hit: shot.hit})))
+        const gameInfo = userStatus.gameRoomDto.board
+        if (gameInfo) {
+            setShipPositions(gameInfo.myShips.map((ship:any) => getShipPositions(ship)))
+            setMyShots(gameInfo.shootsTaken.map((shot:any) => ({block: convertCoordinateToNumber({x: shot.x, y: shot.y}), hit: shot.hit})))
+            setEnemyShots(gameInfo.shotsReceived((shot:any) => ({block: convertCoordinateToNumber({x: shot.x, y: shot.y}), hit: shot.hit})))
+        }
     })
 
     const onSendPositions = () => {
@@ -79,12 +81,21 @@ export const Game = () => {
         })
     }
 
+    const onFire = (block: number) => {
+        console.log('FIRING')
+        const coordinate = convertNumberToCoordinates(block)
+        client?.publish({
+            destination:"/app/shoot",
+            body: JSON.stringify({gameId, userId, x: coordinate.x, y: coordinate.y})
+        })
+    }
+
     const getPlayingScreen = () => {
         switch(userState) {
             case 'YOUR_TURN':
-                return <Fire gameId={`${gameId}`} waiting={false} positions={shipPositions} myShots={[{block: 30, hit: true}]} enemyShots={[{block: 47, hit: false}]}/>
+                return <Fire waiting={false} positions={shipPositions} myShots={myShots} enemyShots={enemyShots} onFire={onFire}/>
             case 'OPPONENT_TURN':
-                return <Fire gameId={`${gameId}`} waiting={true} positions={shipPositions} myShots={[{block: 30, hit: true}]} enemyShots={[{block: 47, hit: false}]}/>
+                return <Fire waiting={true} positions={shipPositions} myShots={myShots} enemyShots={enemyShots}/>
         }
     }
 
