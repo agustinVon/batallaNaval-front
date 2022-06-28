@@ -19,7 +19,6 @@ export const Ship = ({length, select, shifted, isSmall = false}: ShipProps) => {
     }),
     [],
   )
-  console.log(shifted)
   useEffect(() => {
     if (isDragging && select) {
       select()

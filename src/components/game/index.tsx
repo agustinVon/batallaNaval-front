@@ -2,7 +2,7 @@ import React, { FormEvent, useEffect, useState } from 'react'
 import { Board } from '../commons/PositioningBoard';
 import { ChatBox } from '../commons/ChatBox';
 import { Navbar } from '../commons/Navbar';
-import { ShipPosition } from '../commons/types';
+import { ShipPosition, Shot } from '../commons/types';
 import './gameStyle.scss'
 import { Ship } from '../commons/Ship';
 import { Positioning } from './positioning';
@@ -15,7 +15,6 @@ import { convertPositionsToBackendPositions } from '../../utils/utils';
 
 export const Game = () => {
     const gameId = useParams().gameId;
-    console.log(`GAME ID: ${gameId}`)
     const userId = localStorage.getItem("userId")
     const client = useStompClient()
     const [shipPositions, setShipPositions] = useState<ShipPosition[]>([
@@ -40,11 +39,13 @@ export const Game = () => {
             shipLength: 2
         },
     ])
-    const [gameState, setGameState] = useState('WaitingForOponent')
-    console.log(shipPositions)
+    const [gameState, setGameState] = useState('LOADING')
+    const [userState, setUserState] = useState('LOADING')
+    const [myShots, setMyShots] = useState<Shot[]>([])
+    const [enemyShots, setMyEnemyShots] = useState<Shot[]>([])
 
     useEffect(() => {
-        console.log("JOINING")
+        console.log('JOINING')
         client?.publish({
             destination:"/app/joinGame",
             body: JSON.stringify({gameId:gameId})
@@ -53,13 +54,18 @@ export const Game = () => {
 
     useSubscription(`/game/${gameId}/status`, response => {
         const gameStatus = JSON.parse(response.body)
-        console.log(gameStatus)
+        console.log('GAME STATUS: ', gameStatus)
         setGameState(gameStatus.status)
+    })
+
+    useSubscription(`/game/${gameId}/user/${userId}`, response => {
+        const userStatus = JSON.parse(response.body)
+        console.log('USER STATUS: ', userStatus)
+        setUserState(userStatus.status)
     })
 
     const onSendPositions = () => {
         console.log('SENDING SHIPS POSITIONS')
-        setGameState("Shooting")
         console.log(convertPositionsToBackendPositions(shipPositions))
         client?.publish({
             destination:"/app/set-ship-position",
@@ -67,16 +73,34 @@ export const Game = () => {
         })
     }
 
-    const getScreen = () => {
-        switch(gameState) {
-            case 'WAITING_FOR_OPPONENT':
-                return <WaitingForOponent/>
+    const getPlayingScreen = () => {
+        switch(userState) {
+            case 'YOUR_TURN':
+                return <Fire gameId={`${gameId}`} waiting={false} positions={shipPositions} myShots={[{block: 30, hit: true}]} enemyShots={[{block: 47, hit: false}]}/>
+            case 'OPPONENT_TURN':
+                return <Fire gameId={`${gameId}`} waiting={true} positions={shipPositions} myShots={[{block: 30, hit: true}]} enemyShots={[{block: 47, hit: false}]}/>
+        }
+    }
+
+    const getShipPositioningScreen = () => {
+        switch(userState) {
             case 'ORDERING_SHIPS':
                 return <Positioning positions={shipPositions} setPositions={setShipPositions} sendPositions={onSendPositions}/>
             case 'WAITING_FOR_OPPONENT_TO_ORDER_SHIPS':
-                return <Fire waiting={false} positions={shipPositions} myShots={[{block: 30, hit: true}]} enemyShots={[{block: 47, hit: false}]}/>
+                return <WaitingForOponent message='to order ships'/>
+        }
+    }
+
+    const getScreen = () => {
+        switch(gameState) {
+            case 'LOADING':
+                return <WaitingForOponent message='to join'/>
+            case 'WAITING_FOR_OPPONENT':
+                return <WaitingForOponent message='to join'/>
+            case 'ORDERING_SHIPS':
+                return getShipPositioningScreen()
             case 'PLAYING':
-                return <Fire waiting={false} positions={shipPositions} myShots={[{block: 30, hit: true}]} enemyShots={[{block: 47, hit: false}]}/>
+                return getPlayingScreen()
             case 'FINISHED':
                 return <h1>FINISHED</h1>
         }
