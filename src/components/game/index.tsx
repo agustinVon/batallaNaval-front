@@ -45,12 +45,14 @@ export const Game = () => {
     const [enemyShots, setMyEnemyShots] = useState<Shot[]>([])
 
     useEffect(() => {
-        console.log('JOINING')
-        client?.publish({
-            destination:"/app/joinGame",
-            body: JSON.stringify({gameId:gameId})
-        })
-    },[])
+        if (client) {
+            console.log('JOINING')
+            client?.publish({
+                destination:"/app/joinGame",
+                body: JSON.stringify({gameId:gameId})
+            })
+        }
+    },[client])
 
     useSubscription(`/game/${gameId}/status`, response => {
         const gameStatus = JSON.parse(response.body)
