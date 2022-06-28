@@ -61,6 +61,7 @@ export const Game = () => {
     })
 
     useSubscription(`/game/${gameId}/user/${userId}`, response => {
+        console.log('RESPONSE', response)
         const userStatus = JSON.parse(response.body)
         console.log('USER STATUS: ', userStatus)
         setUserState(userStatus.status)
