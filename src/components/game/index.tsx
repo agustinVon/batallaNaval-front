@@ -69,7 +69,7 @@ export const Game = () => {
         if (gameInfo) {
             setShipPositions(gameInfo.myShips.map((ship:any) => getShipPositions(ship)))
             setMyShots(gameInfo.shootsTaken.map((shot:any) => ({block: convertCoordinateToNumber({x: shot.x, y: shot.y}), hit: shot.hit})))
-            setEnemyShots(gameInfo.shotsReceived((shot:any) => ({block: convertCoordinateToNumber({x: shot.x, y: shot.y}), hit: shot.hit})))
+            setEnemyShots(gameInfo.shotsReceived.map((shot:any) => ({block: convertCoordinateToNumber({x: shot.x, y: shot.y}), hit: shot.hit})))
         }
     })
 
