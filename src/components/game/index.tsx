@@ -83,6 +83,7 @@ export const Game = () => {
 
     const onFire = (block: number) => {
         console.log('FIRING')
+        console.log(`/game/${gameId}/user/${userId}`)
         const coordinate = convertNumberToCoordinates(block)
         client?.publish({
             destination:"/app/shoot",
