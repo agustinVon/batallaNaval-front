@@ -36,6 +36,11 @@ h4 {
     color: colors.$green
 }
 
+.waiting-label {
+    font-weight: bold;
+    color: colors.$green,
+}
+
 .horizontalWrapper {
     display: flex;
     gap: 10px;

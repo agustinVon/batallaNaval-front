@@ -10,7 +10,7 @@ import { useStompClient, useSubscription } from 'react-stomp-hooks';
 import { Fire } from './fire';
 import { WaitingForOponent } from './waitingForOponent';
 import { useParams } from 'react-router-dom';
-import { convertPositionsToBackendPositions } from '../../utils/utils';
+import { convertCoordinateToNumber, convertPositionsToBackendPositions, getShipPositions } from '../../utils/utils';
 
 
 export const Game = () => {
@@ -42,7 +42,7 @@ export const Game = () => {
     const [gameState, setGameState] = useState('LOADING')
     const [userState, setUserState] = useState('LOADING')
     const [myShots, setMyShots] = useState<Shot[]>([])
-    const [enemyShots, setMyEnemyShots] = useState<Shot[]>([])
+    const [enemyShots, setEnemyShots] = useState<Shot[]>([])
 
     useEffect(() => {
         if (client) {
@@ -64,6 +64,10 @@ export const Game = () => {
         const userStatus = JSON.parse(response.body)
         console.log('USER STATUS: ', userStatus)
         setUserState(userStatus.status)
+        const gameInfo = userStatus.gameRoomDto
+        setShipPositions(gameInfo.myShips.map((ship:any) => getShipPositions(ship)))
+        setMyShots(gameInfo.shootsTaken.map((shot:any) => ({block: convertCoordinateToNumber({x: shot.x, y: shot.y}), hit: shot.hit})))
+        setEnemyShots(gameInfo.shotsReceived((shot:any) => ({block: convertCoordinateToNumber({x: shot.x, y: shot.y}), hit: shot.hit})))
     })
 
     const onSendPositions = () => {

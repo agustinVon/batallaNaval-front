@@ -1,3 +1,8 @@
+export interface Coordinatee {
+    x: number,
+    y:number
+}
+
 export interface ShipPosition {
     blocksOccupied?: number[]
     shifted: boolean,

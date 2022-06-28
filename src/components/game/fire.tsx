@@ -21,6 +21,8 @@ export const EXPLOSION_STATUS = {
 
 export const Fire = ({positions, myShots, enemyShots, waiting, gameId}:Props) => {
 
+  console.log('WAITING', waiting)
+
   const [selectedSqare, setSelectedSquare] = useState<number>()
   // const [explosion, setExplosion] = useState<string>('WAITING')
 
@@ -36,7 +38,7 @@ export const Fire = ({positions, myShots, enemyShots, waiting, gameId}:Props) =>
             {!waiting ? <CommonBoard shots={myShots} onSelect={setSelectedSquare} selectedSquare={selectedSqare} />
             : <CommonBoard shots={myShots} /> }
         </div>
-        <CommonButton text='FIRE' className='mediumButton'/>
+        {waiting ? <label className='waiting-label'>{`Waiting for oponent to shoot`}</label> : <CommonButton text='FIRE' className='mediumButton'/>}
     </div>
   )
 }
