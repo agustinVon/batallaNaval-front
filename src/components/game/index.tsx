@@ -61,10 +61,10 @@ export const Game = () => {
         console.log('SENDING SHIPS POSITIONS')
         setGameState("Shooting")
         console.log(convertPositionsToBackendPositions(shipPositions))
-        // client?.publish({
-        //     destination:"/set-ship-position",
-        //     body: JSON.stringify({gameId, userId, shipPositions})
-        // })
+        client?.publish({
+            destination:"/app/set-ship-position",
+            body: JSON.stringify({gameId, userId, positions: convertPositionsToBackendPositions(shipPositions)})
+        })
     }
 
     const getScreen = () => {
@@ -88,8 +88,7 @@ export const Game = () => {
                 <Navbar/>
                 <div className='gameBackground'>
                     <>
-                        {/*getScreen()*/}
-                        <Positioning positions={shipPositions} setPositions={setShipPositions} sendPositions={onSendPositions}/>
+                        {getScreen()}
                         <ChatBox userId={`${userId}`} gameId={`${gameId}`}/>
                     </>
                 </div>
