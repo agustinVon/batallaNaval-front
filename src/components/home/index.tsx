@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrophy, faShip } from '@fortawesome/free-solid-svg-icons';
-import { joinNewGame, getProfileData } from '../../utils/api';
+import { joinNewGame, getProfileData, createNewGame } from '../../utils/api';
 
 interface ProfileData {
   email: string,
@@ -22,6 +22,7 @@ export const Home = () => {
   const [loading, setLoading] = useState(true)
   const [profileData, setProfileData] = useState<ProfileData>()
   const [userId, setUserId] = useState<String>("")
+  const [matchCode, setMatchCode] = useState("")
   
   useEffect(() => {
     if (!profileData) getProfileData("").then(data => {
@@ -34,8 +35,20 @@ export const Home = () => {
     })
   },[profileData])
 
+  console.log('USERID', userId)
+
   const onGameJoin = () => {
     joinNewGame(userId).then(data => {
+      if(data.status === 200) {
+        data.json().then(url => {
+          navigate(`/game/${url.gameId}`)
+        })
+      }
+    })
+  }
+
+  const onGameCreate = () => {
+    createNewGame(userId).then(data => {
       if(data.status === 200) {
         data.json().then(url => {
           navigate(`/game/${url.gameId}`)
@@ -74,7 +87,12 @@ export const Home = () => {
           </div>
         </div>
         <div className='horizontalContainer'>
-          <CommonButton className='mediumButton' onClick={onGameJoin} text='Join game' />
+          <CommonButton className='mediumButton' width={200} onClick={onGameJoin} text='Join quickgame' />
+          <CommonButton className='mediumButton' width={250} onClick={onGameCreate} text='Create empty game' />
+        </div>
+        <div className='horizontalContainer'>
+          <input className='gameCodeInput' onChange={(e) => setMatchCode(e.target.value)}/>
+          <CommonButton className='mediumButton' onClick={() => navigate(`/game/${matchCode}`)} text='Join' />
         </div>
         </>
         }

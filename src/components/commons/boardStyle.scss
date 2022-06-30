@@ -6,6 +6,7 @@
     background-color: transparent;
     border: 1px solid;
     border-color: colors.$darkGreen;
+    position:relative;
 }
 
 .positionBoard {
@@ -23,10 +24,11 @@
 }
 
 .shot {
+    position: absolute;
+    top: 6px;
+    left: 6px;
     width: 20px;
     height: 20px;
-    margin-left: 6px;
-    margin-top: 8px;
     border-radius: 100%;
     border: solid 2px;
     background-color: transparent;

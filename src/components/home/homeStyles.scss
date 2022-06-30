@@ -40,6 +40,12 @@
         background-color: colors.$grey;
         gap: 30px;
 
+        .gameCodeInput{
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: fontsizes.$xSmall;
+        }
+
         .horizontalContainer {
             display: flex;
             gap: 10px;

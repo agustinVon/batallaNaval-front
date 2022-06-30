@@ -22,3 +22,11 @@ export const joinNewGame = async(userId: String) => {
         body: JSON.stringify({ userId })
     })
 }
+
+export const createNewGame = async(userId: String) => {
+    return await fetch(`${URL}/game/start-new-game`, {
+        method: 'POST',
+        headers: new Headers({'Accept': 'application/json', 'Content-Type': 'application/json'}),
+        body: JSON.stringify({ userId })
+    })
+}

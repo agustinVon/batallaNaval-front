@@ -9,8 +9,9 @@ import { Positioning } from './positioning';
 import { useStompClient, useSubscription } from 'react-stomp-hooks';
 import { Fire } from './fire';
 import { WaitingForOponent } from './waitingForOponent';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { convertCoordinateToNumber, convertNumberToCoordinates, convertPositionsToBackendPositions, getShipPositions } from '../../utils/utils';
+import { WinLoseScreen } from './winLoseScreen';
 
 
 export const Game = () => {
@@ -43,6 +44,7 @@ export const Game = () => {
     const [userState, setUserState] = useState('LOADING')
     const [myShots, setMyShots] = useState<Shot[]>([])
     const [enemyShots, setEnemyShots] = useState<Shot[]>([])
+    const navigate = useNavigate()
 
     useEffect(() => {
         if (client) {
@@ -59,6 +61,8 @@ export const Game = () => {
         console.log('GAME STATUS: ', gameStatus)
         setGameState(gameStatus.status)
     })
+
+    console.log('SHOTS RECEIVED', enemyShots)
 
     useSubscription(`/game/${gameId}/user/${userId}`, response => {
         console.log('RESPONSE', response)
@@ -92,6 +96,10 @@ export const Game = () => {
         })
     }
 
+    const goHome = () => {
+        navigate('/home')
+    }
+
     const getPlayingScreen = () => {
         switch(userState) {
             case 'YOUR_TURN':
@@ -110,6 +118,15 @@ export const Game = () => {
         }
     }
 
+    const getWinLoseScreen = () => {
+        switch(userState) {
+            case 'WON':
+                return <WinLoseScreen hasWon={true} goHome={goHome}/>
+            case 'LOST':
+                return <WinLoseScreen hasWon={false} goHome={goHome}/>
+        }
+    }
+
     const getScreen = () => {
         switch(gameState) {
             case 'LOADING':
@@ -121,7 +138,7 @@ export const Game = () => {
             case 'PLAYING':
                 return getPlayingScreen()
             case 'FINISHED':
-                return <h1>FINISHED</h1>
+                return getWinLoseScreen()
         }
     }
 
