@@ -88,12 +88,20 @@ export const Game = () => {
 
     const onFire = (block: number) => {
         console.log('FIRING')
-        console.log(`/game/${gameId}/user/${userId}`)
         const coordinate = convertNumberToCoordinates(block)
         client?.publish({
             destination:"/app/shoot",
             body: JSON.stringify({gameId, userId, x: coordinate.x, y: coordinate.y})
         })
+    }
+
+    const onSurrender = () => {
+        console.log('SURRENDER')
+        client?.publish({
+            destination:"/app/surrender",
+            body: JSON.stringify({gameId:gameId, userId: userId})
+        })
+        navigate('/home')
     }
 
     const goHome = () => {
@@ -103,7 +111,7 @@ export const Game = () => {
     const getPlayingScreen = () => {
         switch(userState) {
             case 'YOUR_TURN':
-                return <Fire waiting={false} positions={shipPositions} myShots={myShots} enemyShots={enemyShots} onFire={onFire}/>
+                return <Fire waiting={false} positions={shipPositions} myShots={myShots} enemyShots={enemyShots} onFire={onFire} onSurrender={onSurrender}/>
             case 'OPPONENT_TURN':
                 return <Fire waiting={true} positions={shipPositions} myShots={myShots} enemyShots={enemyShots}/>
         }

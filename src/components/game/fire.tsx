@@ -10,7 +10,8 @@ interface Props {
     myShots: Shot[],
     enemyShots: Shot[],
     waiting: boolean,
-    onFire?: (block: number) => void
+    onFire?: (block: number) => void,
+    onSurrender?: () => void
 }
 
 export const EXPLOSION_STATUS = {
@@ -19,7 +20,7 @@ export const EXPLOSION_STATUS = {
   waiting: 'WAITING'
 }
 
-export const Fire = ({positions, myShots, enemyShots, onFire, waiting}:Props) => {
+export const Fire = ({positions, myShots, enemyShots, onFire, onSurrender, waiting}:Props) => {
 
   console.log('WAITING', waiting)
 
@@ -38,7 +39,12 @@ export const Fire = ({positions, myShots, enemyShots, onFire, waiting}:Props) =>
             {!waiting ? <CommonBoard shots={myShots} onSelect={setSelectedSquare} selectedSquare={selectedSqare} />
             : <CommonBoard shots={myShots} /> }
         </div>
-        {waiting ? <label className='waiting-label'>{`Waiting for oponent to shoot`}</label> : <CommonButton text='FIRE' className='mediumButton' onClick={() => (onFire && selectedSqare) && onFire(selectedSqare)}/>}
+        {waiting 
+        ? <label className='waiting-label'>{`Waiting for oponent to shoot`}</label> 
+        : <div style={{display: 'flex', gap:'5px'}}>
+            <CommonButton text='FIRE' className='mediumButton' onClick={() => (onFire && selectedSqare) && onFire(selectedSqare)}/>
+            <CommonButton text='SURRENDER' className='mediumRedButton' onClick={() => (onSurrender) && onSurrender()}/>
+          </div>}
     </div>
   )
 }
