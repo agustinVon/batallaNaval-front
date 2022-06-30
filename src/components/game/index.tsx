@@ -51,7 +51,7 @@ export const Game = () => {
             console.log('JOINING')
             client?.publish({
                 destination:"/app/joinGame",
-                body: JSON.stringify({gameId:gameId})
+                body: JSON.stringify({gameId:gameId, userId: userId})
             })
         }
     },[client])
