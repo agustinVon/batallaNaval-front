@@ -2,13 +2,12 @@ import React from 'react'
 import "./matchTableStyle.scss"
 
 type MatchData = {
-    time:string,
     result:boolean,
-    oponent:string
+    opponent:string
 }
 
 type Props = {
-    matchData: MatchData[]
+    matchData?: MatchData[]
 }
 
 const MatchesTable = ({matchData}: Props) => {
@@ -20,13 +19,18 @@ const MatchesTable = ({matchData}: Props) => {
             <th style={{flex: 1}}>Opponent</th>
         </tr>
         <tbody>
-            {matchData.map(data => (
+            {matchData 
+                ? matchData.map(data => (
                 <tr>
-                    <td style={{width: 220}}>{data.time}</td>
+                    <td style={{width: 220}}>{"2022-07-21"}</td>
                     <td style={{width: 150}}>{data.result ? "Victory" : "Defeat"}</td>
-                    <td style={{flex: 1}}>{data.oponent}</td>
+                    <td style={{flex: 1}}>{data.opponent}</td>
                 </tr>
-            ))}
+                ))
+                : <div>
+                    <label>No games played yet</label>
+                </div>
+            }
         </tbody>
     </table>
   )

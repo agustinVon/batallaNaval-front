@@ -10,17 +10,21 @@ import Loading from '../commons/Loading';
 import MatchesTable from '../commons/MatchesTable';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-interface ProfileData {
+import { Game } from '../game';
+
+type Game = {
+  opponent: ProfileData,
+  result: string
+}
+type ProfileData = {
   email: string,
-  games: [],
+  games: Game[],
   id: string,
   name:string,
   streak: number,
   surname: string,
   winRate: number
 }
-
-const MOCK_MATCH_DATA = [{time:"2018-09-01 09:01:15", result:true, oponent:"Pepe"},{time:"Today", result:true, oponent:"Pepe"},{time:"Today", result:true, oponent:"Pepe"},{time:"2018-09-01 09:01:15", result:true, oponent:"Pepe"},{time:"2018-09-01 09:01:15", result:true, oponent:"Pepe"},{time:"2018-09-01 09:01:15", result:true, oponent:"Pepe"},{time:"2018-09-01 09:01:15", result:true, oponent:"Pepe"},{time:"2018-09-01 09:01:15", result:true, oponent:"Pepe"}]
 
 export const Home = () => {
   const navigate = useNavigate()
@@ -71,15 +75,15 @@ export const Home = () => {
         : <>
         <h2>Welcome back {profileData?.name}</h2>
         <div className='topHomeContainer'>
-          <MatchesTable matchData={MOCK_MATCH_DATA}/>
+          <MatchesTable matchData={profileData?.games?.map(game => ({opponent: game.opponent.name, result:game.result === "LOST" ? false : true}))}/>
           <div className='horizontalContainer' style={{flex: 1, justifyContent:'space-evenly'}}>
             <div className='statWrapper'>
-              <label className='bigLabel'>10</label>
+              <label className='bigLabel'>{profileData?.games?.length || 0}</label>
               <label>Total matches won</label>
             </div>
             <div className='statWrapper'>
               <div style={{ height: 120, width: 120, marginBottom: 10 }}>
-                <CircularProgressbar value={75} text={`${75}%`} styles={buildStyles({
+                <CircularProgressbar value={profileData?.winRate || 0} text={`${profileData?.winRate}%`} styles={buildStyles({
                   pathColor: "#3cbe3a",
                   textColor: '#3cbe3a',
                   trailColor: '#555555',
