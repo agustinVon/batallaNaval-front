@@ -83,7 +83,7 @@ export const Home = () => {
             </div>
             <div className='statWrapper'>
               <div style={{ height: 120, width: 120, marginBottom: 10 }}>
-                <CircularProgressbar value={profileData?.winRate || 0} text={`${profileData ? parseInt(profileData.winRate, 10) : 0}%`} styles={buildStyles({
+                <CircularProgressbar value={profileData?.winRate || 0} text={`${profileData ? Math.floor(profileData.winRate) : 0}%`} styles={buildStyles({
                   pathColor: "#3cbe3a",
                   textColor: '#3cbe3a',
                   trailColor: '#555555',
