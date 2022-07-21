@@ -1,0 +1,35 @@
+@use '../../stylesUtils/colors';
+@use '../../stylesUtils/fontsizes.scss';
+
+table {
+    border-radius: 10px;
+    overflow: hidden;
+    height: fit-content;
+}
+
+table, th, td {
+    border: 1px solid colors.$dimmGreen;
+    border-spacing: 0;
+}  
+
+th {
+    height: fit-content;
+    margin: 0;
+    background-color: colors.$darkGrey;
+    font-size: fontsizes.$xSmall;
+    color: colors.$green;
+    border-top: none;
+    text-align: center;
+}
+
+td {
+    height: fit-content;
+    margin: 0;
+    background-color: transparent;
+    font-size: fontsizes.$xSmall;
+    color: colors.$green;
+}
+
+tbody {
+    overflow-y: scroll;
+}

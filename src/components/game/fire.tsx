@@ -24,7 +24,7 @@ export const Fire = ({positions, myShots, enemyShots, onFire, onSurrender, waiti
 
   console.log('WAITING', waiting)
 
-  const [selectedSqare, setSelectedSquare] = useState<number>()
+  const [selectedSqare, setSelectedSquare] = useState<number>(-1)
   // const [explosion, setExplosion] = useState<string>('WAITING')
 
   // useSubscription(`/game/${gameId}/shoot-response`, response => {
@@ -42,7 +42,7 @@ export const Fire = ({positions, myShots, enemyShots, onFire, onSurrender, waiti
         {waiting 
         ? <label className='waiting-label'>{`Waiting for oponent to shoot`}</label> 
         : <div style={{display: 'flex', gap:'5px'}}>
-            <CommonButton text='FIRE' className='mediumButton' onClick={() => (onFire && selectedSqare) && onFire(selectedSqare)}/>
+            <CommonButton text='FIRE' className='mediumButton' onClick={() => (onFire) && onFire(selectedSqare)}/>
             <CommonButton text='SURRENDER' className='mediumRedButton' onClick={() => (onSurrender) && onSurrender()}/>
           </div>}
     </div>

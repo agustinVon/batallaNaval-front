@@ -6,7 +6,10 @@ import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrophy, faShip } from '@fortawesome/free-solid-svg-icons';
 import { joinNewGame, getProfileData, createNewGame } from '../../utils/api';
-
+import Loading from '../commons/Loading';
+import MatchesTable from '../commons/MatchesTable';
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
 interface ProfileData {
   email: string,
   games: [],
@@ -16,6 +19,8 @@ interface ProfileData {
   surname: string,
   winRate: number
 }
+
+const MOCK_MATCH_DATA = [{time:"2018-09-01 09:01:15", result:true, oponent:"Pepe"},{time:"Today", result:true, oponent:"Pepe"},{time:"Today", result:true, oponent:"Pepe"},{time:"2018-09-01 09:01:15", result:true, oponent:"Pepe"},{time:"2018-09-01 09:01:15", result:true, oponent:"Pepe"},{time:"2018-09-01 09:01:15", result:true, oponent:"Pepe"},{time:"2018-09-01 09:01:15", result:true, oponent:"Pepe"},{time:"2018-09-01 09:01:15", result:true, oponent:"Pepe"}]
 
 export const Home = () => {
   const navigate = useNavigate()
@@ -62,28 +67,26 @@ export const Home = () => {
       <Navbar/>
       <div className='homeBackground'>
         {loading 
-        ? <h3>Loading</h3>
+        ? <Loading/>
         : <>
         <h2>Welcome back {profileData?.name}</h2>
-        <div>
-          <div className='horizontalContainer' style={{width: 500}}>
-            <h3>Last matches played</h3>
-            <div className='bar'></div>
-          </div>
-          <ul>
-            <li>Victory 02/03/2022 - 16:30 with Agustin</li>
-            <li>Victory 02/03/2022 - 16:30 with Agustin</li>
-            <li>Victory 02/03/2022 - 16:30 with Agustin</li>
-          </ul>
-        </div>
-        <div className='horizontalContainer'>
-          <div className='statWrapper'>
-            <FontAwesomeIcon size='4x' icon={faTrophy} color={'#276b26'}></FontAwesomeIcon>
-            <label>Win ratio: 0,5</label>
-          </div>
-          <div className='statWrapper'>
-            <FontAwesomeIcon size='4x' icon={faShip} color={'#276b26'}></FontAwesomeIcon>
-            <label>Win ratio: 0,5</label>
+        <div className='topHomeContainer'>
+          <MatchesTable matchData={MOCK_MATCH_DATA}/>
+          <div className='horizontalContainer' style={{flex: 1, justifyContent:'space-evenly'}}>
+            <div className='statWrapper'>
+              <label className='bigLabel'>10</label>
+              <label>Total matches won</label>
+            </div>
+            <div className='statWrapper'>
+              <div style={{ height: 120, width: 120, marginBottom: 10 }}>
+                <CircularProgressbar value={75} text={`${75}%`} styles={buildStyles({
+                  pathColor: "#3cbe3a",
+                  textColor: '#3cbe3a',
+                  trailColor: '#555555',
+                })}/>
+              </div>
+              <label>Win ratio</label>
+            </div>
           </div>
         </div>
         <div className='horizontalContainer'>

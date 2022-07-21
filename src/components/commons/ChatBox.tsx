@@ -38,7 +38,7 @@ export const ChatBox = ({userId, gameId}:ChatProps) => {
     <div className='chatContainer'>
         <div className='chat'>
           {messages.map((mes, index) => (
-            <Message key={index} user={mes.senderName} userColor='blue' message={mes.content}/>
+            <Message key={index} user={mes.senderName} userColor='#3cbe3a' message={mes.content}/>
           ))}
         </div>
         <form className='chatInputContainer' onSubmit={submitMessage}>

@@ -14,11 +14,19 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login/>}/>
-          <Route path="/home" element={<Home/>}/>
-          <Route path='/game/:gameId' element={<Game/>}/>
+          <Route path="/home" element={<AuthenticatedRoute><Home/></AuthenticatedRoute>}/>
+          <Route path='/game/:gameId' element={<AuthenticatedRoute><Game/></AuthenticatedRoute>}/>
         </Routes>
       </BrowserRouter>
   )
+}
+
+const AuthenticatedRoute = ({children}:{children:React.ReactNode}) => {
+  if(!!localStorage.getItem("credentials")) {
+    return <>{children}</>
+  } else {
+    return <Navigate to={"/"}/>
+  }
 }
 
 export default App;

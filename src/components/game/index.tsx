@@ -68,8 +68,14 @@ export const Game = () => {
         console.log('RESPONSE', response)
         const userStatus = JSON.parse(response.body)
         console.log('USER STATUS: ', userStatus)
-        setUserState(userStatus.status)
-        const gameInfo = userStatus.gameRoomDto.board
+        if(gameState == "FINISHED") {
+            if(userStatus.status === "WON" || userStatus.status === "LOST") {
+                setUserState(userStatus.status)
+            }
+        } else {
+            setUserState(userStatus.status)
+        }
+        const gameInfo = userStatus?.gameRoomDto?.board
         if (gameInfo) {
             setShipPositions(gameInfo.myShips.map((ship:any) => getShipPositions(ship)))
             setMyShots(gameInfo.shootsTaken.map((shot:any) => ({block: convertCoordinateToNumber({x: shot.x, y: shot.y}), hit: shot.hit})))
@@ -140,7 +146,12 @@ export const Game = () => {
             case 'LOADING':
                 return <WaitingForOponent message='to join'/>
             case 'WAITING_FOR_OPPONENT':
-                return <WaitingForOponent message='to join'/>
+                return <WaitingForOponent message='to join'>
+                    <div style={{display: 'flex'}}>
+                        <label className='light-label'>{'Game code:  '}</label>
+                        <label className='waiting-label'>{gameId}</label>
+                    </div>
+                </WaitingForOponent>
             case 'ORDERING_SHIPS':
                 return getShipPositioningScreen()
             case 'PLAYING':
