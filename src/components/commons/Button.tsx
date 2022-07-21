@@ -5,7 +5,8 @@ interface ButtonProps {
   text: string;
   width?: number;
   onClick?: () => void;
-  className?: string
+  className?: string;
+  disabled?: boolean;
 }
 
 interface DropdownButtonProps {
@@ -14,9 +15,9 @@ interface DropdownButtonProps {
   children: React.ReactNode;
 }
 
-export const CommonButton = ({ text, width = 120, onClick, className }: ButtonProps) => {
+export const CommonButton = ({ text, width = 120, onClick, className, disabled }: ButtonProps) => {
   return (
-    <button className={className} style={{width: width}} onClick = {onClick}>
+    <button className={className} style={{width: width}} onClick = {onClick} disabled={disabled}>
       <label>{text}</label>
     </button>
   )

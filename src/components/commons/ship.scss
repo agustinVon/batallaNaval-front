@@ -3,8 +3,7 @@
 .ship {
     width: 240px;
     height: 40px;
-    border: 2px solid;
-    border-radius: 100%;
+    border-radius: 80%;
     z-index: 1000;
     background-color: colors.$green;
 }

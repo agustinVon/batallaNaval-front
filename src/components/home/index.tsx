@@ -99,7 +99,7 @@ export const Home = () => {
         </div>
         <div className='horizontalContainer'>
           <input className='gameCodeInput' onChange={(e) => setMatchCode(e.target.value)}/>
-          <CommonButton className='mediumButton' onClick={() => navigate(`/game/${matchCode}`)} text='Join' />
+          <CommonButton disabled={matchCode === ""} className='mediumButton' onClick={() => navigate(`/game/${matchCode}`)} text='Join' />
         </div>
         </>
         }
