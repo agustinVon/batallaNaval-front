@@ -24,8 +24,8 @@ export const Ship = ({length, select, shifted, isSmall = false}: ShipProps) => {
       select()
     }
   }, [isDragging])
-  const height = shifted ? ( isSmall? 38 * length : 48 * length) : isSmall ? 28 : 38
-  const width = !shifted ? ( isSmall? 38 * length : 48 * length) : isSmall ? 28 : 38
+  const height = shifted ? ( isSmall? 37 * length : 47 * length) : isSmall ? 27 : 37
+  const width = !shifted ? ( isSmall? 37 * length : 47 * length) : isSmall ? 27 : 37
   return (
     <div ref={drag} className={'ship'} style={{height: height, width: width}}/>
   )
