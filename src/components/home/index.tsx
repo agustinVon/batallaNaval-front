@@ -78,7 +78,7 @@ export const Home = () => {
           <MatchesTable matchData={profileData?.games?.map(game => ({opponent: game?.opponent?.name, result:game?.result === "LOST" ? false : true}))}/>
           <div className='horizontalContainer' style={{flex: 1, justifyContent:'space-evenly'}}>
             <div className='statWrapper'>
-              <label className='bigLabel'>{profileData?.games?.length || 0}</label>
+              <label className='bigLabel'>{profileData?.games?.filter(game => game.result === "WON").length || 0}</label>
               <label>Total matches won</label>
             </div>
             <div className='statWrapper'>
