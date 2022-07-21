@@ -62,8 +62,11 @@ export const Game = () => {
         setGameState(gameStatus.status)
     })
 
+    useEffect(() => {
+        console.log("GAME STATE", gameState)
+    }, [gameState])
+
     console.log('SHOTS RECEIVED', enemyShots)
-    console.log('USER STATE', userState)
 
     useSubscription(`/game/${gameId}/user/${userId}`, response => {
         console.log('RESPONSE', response)
