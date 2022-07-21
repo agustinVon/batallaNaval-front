@@ -41,7 +41,7 @@ export const Fire = ({positions, myShots, enemyShots, onFire, onSurrender, waiti
         </div>
         {waiting 
         ? <label className='waiting-label'>{`Waiting for oponent to shoot`}</label> 
-        : <div style={{display: 'flex', gap:'5px'}}>
+        : <div style={{display: 'flex', gap:'20px'}}>
             <CommonButton text='FIRE' className='mediumButton' onClick={() => (onFire) && onFire(selectedSqare)}/>
             <CommonButton text='SURRENDER' className='mediumRedButton' onClick={() => (onSurrender) && onSurrender()}/>
           </div>}
