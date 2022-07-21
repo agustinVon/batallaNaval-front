@@ -1,5 +1,4 @@
-import { useAuth0 } from "@auth0/auth0-react"
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useState } from "react"
 
 const getUserToken = async({ getAccessToken }: {getAccessToken: any}) => {
     try {
@@ -17,18 +16,18 @@ interface TokenResponse {
 }
 
 export const useGetAuth0Token = () => {
-    const {getAccessTokenSilently, isAuthenticated} = useAuth0()
-    const [tokenResponse, setTokenResponse] = useState<TokenResponse>()
+    // const {getAccessTokenSilently, isAuthenticated} = useAuth0()
+    // const [tokenResponse, setTokenResponse] = useState<TokenResponse>()
 
-    useEffect(() => {
-        if(isAuthenticated && !tokenResponse) {
-            getUserToken({ getAccessToken: getAccessTokenSilently })
-            .then(response => setTokenResponse(response))
-        }
-    }, [isAuthenticated, tokenResponse, getAccessTokenSilently, setTokenResponse])
+    // useEffect(() => {
+    //     if(isAuthenticated && !tokenResponse) {
+    //         getUserToken({ getAccessToken: getAccessTokenSilently })
+    //         .then(response => setTokenResponse(response))
+    //     }
+    // }, [isAuthenticated, tokenResponse, getAccessTokenSilently, setTokenResponse])
 
     return {
-        token: tokenResponse?.token,
-        error: tokenResponse?.error
+        token: "token",
+        error: "error"
     }
 }
