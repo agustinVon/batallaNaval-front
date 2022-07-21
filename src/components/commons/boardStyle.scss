@@ -9,6 +9,19 @@
     position:relative;
 }
 
+.toggeableSquare {
+    height: 9.5%;
+    width: 9.5%;
+    background-color: transparent;
+    border: 1px solid;
+    border-color: colors.$darkGreen;
+    position:relative;
+}
+
+.toggeableSquare:hover {
+    background-color: #3cbe3a50;
+}
+
 .positionBoard {
     height: 500px;
     width: 500px;

@@ -21,7 +21,7 @@ export const CommonBoard = ({shots, positions, selectedSquare, onSelect}:Props) 
             }
         }
     
-        return <div className='square' onClick={onSelectBlock}>
+        return <div className={onSelect ? 'toggeableSquare' : 'square'} onClick={onSelectBlock}>
             {shipInSquare && <Ship isSmall={true} shifted={shipInSquare.shifted} length={shipInSquare?.shipLength}/>}
             {blockShooted ? <div className='shot' style={blockShooted.hit ? {borderColor: "#B72A2A"} : {borderColor: "#555555"}}/>
             : selectedSquare === i && <div className='shot' style={{borderColor: "#3cbe3a"}}/>}
