@@ -30,7 +30,7 @@ const MatchesTable = ({matchData}: Props) => {
                 </tr>
                 ))
                 : <div className='noGamesPlaceholder'>
-                    <FontAwesomeIcon size='4x' icon={faBullseye} color={'#276b26'}></FontAwesomeIcon>
+                    <FontAwesomeIcon size='4x' icon={faBullseye} color={'#555555'}></FontAwesomeIcon>
                     <label>No games played yet</label>
                 </div>
             }

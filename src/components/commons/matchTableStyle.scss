@@ -47,9 +47,10 @@ tr {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     gap:10px;
 
     label {
-        color: colors.$grey
+        color: colors.$darkGrey
     }
 }
