@@ -7,16 +7,17 @@ import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { StompSessionProvider } from 'react-stomp-hooks';
+import { safeJoin } from './utils/api';
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);
-console.log(window.location.origin)
-console.log("DONT READ", process.env.REACT_APP_GOOGLE_CLIENT_ID)
 root.render(
   <React.StrictMode>
     <GoogleOAuthProvider clientId={`${process.env.REACT_APP_GOOGLE_CLIENT_ID}`}>
       <DndProvider backend={HTML5Backend}>
-        <StompSessionProvider url={`${process.env.REACT_APP_BACKEND_HOST}/batalla-naval`}>
+        <StompSessionProvider url={process.env.REACT_APP_BACKEND_PORT 
+          ? safeJoin(`${process.env.REACT_APP_BACKEND_HOST}:${process.env.REACT_APP_BACKEND_PORT}`, "batalla-naval") 
+          : safeJoin(process.env.REACT_APP_BACKEND_HOST || "", "batalla-naval")}>
           <App />
         </StompSessionProvider>
       </DndProvider>

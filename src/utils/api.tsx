@@ -1,3 +1,5 @@
+import { profile } from "console"
+
 const URL = `${process.env.REACT_APP_BACKEND_HOST}`
 
 interface ProfileData {
@@ -9,14 +11,19 @@ interface ProfileData {
     surname: string,
     winRate: number
   }
+
+export const safeJoin = (a:string, b:string) => {
+    return a.charAt(a.length-1) === '/' ? `${a}${b}` : `${a}/${b}`
+}
+
 export const getProfileData = async(token:String) => {
     const credentials = localStorage.getItem("credentials")
-    return await fetch(`${URL}/profile/${credentials}`, {
+    return await fetch(`${safeJoin(URL, "profile")}/${credentials}`, {
         method: 'GET',
     })
 }
 export const joinNewGame = async(userId: String) => {
-    return await fetch(`${URL}/game/join`, {
+    return await fetch(`${safeJoin(URL, "game")}/join`, {
         method: 'POST',
         headers: new Headers({'Accept': 'application/json', 'Content-Type': 'application/json'}),
         body: JSON.stringify({ userId })
@@ -24,7 +31,7 @@ export const joinNewGame = async(userId: String) => {
 }
 
 export const createNewGame = async(userId: String) => {
-    return await fetch(`${URL}/game/start-new-game`, {
+    return await fetch(`${safeJoin(URL, "game")}/start-new-game`, {
         method: 'POST',
         headers: new Headers({'Accept': 'application/json', 'Content-Type': 'application/json'}),
         body: JSON.stringify({ userId })
