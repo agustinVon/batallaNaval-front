@@ -17,14 +17,14 @@ const MatchesTable = ({matchData}: Props) => {
         <tr>
             <th style={{width: 220}}>Time</th>
             <th style={{width: 150}}>Result</th>
-            <th style={{width: 350}}>Opponent</th>
+            <th style={{flex: 1}}>Opponent</th>
         </tr>
         <tbody>
             {matchData.map(data => (
                 <tr>
-                    <td>{data.time}</td>
-                    <td>{data.result ? "Victory" : "Defeat"}</td>
-                    <td>{data.oponent}</td>
+                    <td style={{width: 220}}>{data.time}</td>
+                    <td style={{width: 150}}>{data.result ? "Victory" : "Defeat"}</td>
+                    <td style={{flex: 1}}>{data.oponent}</td>
                 </tr>
             ))}
         </tbody>

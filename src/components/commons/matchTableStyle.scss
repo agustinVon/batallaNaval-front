@@ -5,6 +5,7 @@ table {
     border-radius: 10px;
     overflow: hidden;
     height: fit-content;
+    flex: 1.8;
 }
 
 table, th, td {
@@ -31,5 +32,11 @@ td {
 }
 
 tbody {
+    display: block;
+    height: 180px;
     overflow-y: scroll;
+}
+
+tr {
+    display: flex;
 }
