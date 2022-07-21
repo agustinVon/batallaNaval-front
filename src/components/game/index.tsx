@@ -63,6 +63,7 @@ export const Game = () => {
     })
 
     console.log('SHOTS RECEIVED', enemyShots)
+    console.log('USER STATE', userState)
 
     useSubscription(`/game/${gameId}/user/${userId}`, response => {
         console.log('RESPONSE', response)

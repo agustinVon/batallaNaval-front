@@ -48,8 +48,6 @@ export const Positioning = ({positions, setPositions, sendPositions}:Props) => {
         };
     }, [])
 
-    console.log("IN POSITIONING")
-
     const setShipShift = ({key}:{key:String}) => {
         if (key === 'Shift') {
             setPositions(prevPositions => prevPositions.map((position) => {
