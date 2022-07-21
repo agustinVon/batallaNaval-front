@@ -1,5 +1,7 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
 import "./matchTableStyle.scss"
+import { faBullseye } from '@fortawesome/free-solid-svg-icons';
 
 type MatchData = {
     result:boolean,
@@ -19,7 +21,7 @@ const MatchesTable = ({matchData}: Props) => {
             <th style={{flex: 1}}>Opponent</th>
         </tr>
         <tbody>
-            {matchData 
+            {matchData && matchData?.length > 0 
                 ? matchData.map(data => (
                 <tr>
                     <td style={{width: 220}}>{"2022-07-21"}</td>
@@ -27,7 +29,8 @@ const MatchesTable = ({matchData}: Props) => {
                     <td style={{flex: 1}}>{data.opponent}</td>
                 </tr>
                 ))
-                : <div>
+                : <div className='noGamesPlaceholder'>
+                    <FontAwesomeIcon size='4x' icon={faBullseye} color={'#276b26'}></FontAwesomeIcon>
                     <label>No games played yet</label>
                 </div>
             }

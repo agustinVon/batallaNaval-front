@@ -40,3 +40,16 @@ tbody {
 tr {
     display: flex;
 }
+
+.noGamesPlaceholder {
+    height: 100%;
+    width:100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:10px;
+
+    label {
+        color: colors.$grey
+    }
+}
