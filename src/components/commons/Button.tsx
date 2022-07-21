@@ -18,7 +18,7 @@ interface DropdownButtonProps {
 export const CommonButton = ({ text, width = 120, onClick, className, disabled }: ButtonProps) => {
   return (
     <button className={className} style={{width: width}} onClick = {onClick} disabled={disabled}>
-      <label>{text}</label>
+      <label className='buttonLabel'>{text}</label>
     </button>
   )
 }
@@ -26,7 +26,7 @@ export const CommonButton = ({ text, width = 120, onClick, className, disabled }
 export const SubmitButton = ({ text, width = 120, className }: ButtonProps) => {
   return (
     <button className={className} type='submit' style={{width: width}}>
-      <label>{text}</label>
+      <label className='buttonLabel'>{text}</label>
     </button>
   )
 }
@@ -37,7 +37,7 @@ export const DropdownButton = ({ children, text, width = 120 }: DropdownButtonPr
   return (
     <button style={{width: width}} onClick={!expanded ? () => setExpand(true) : () => {}}>
       {!expanded 
-      ? <label>{text}</label>
+      ? <label className='buttonLabel'>{text}</label>
       : <div>
         {children}
       </div>
