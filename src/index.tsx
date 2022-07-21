@@ -16,7 +16,7 @@ root.render(
   <React.StrictMode>
     <GoogleOAuthProvider clientId={`${process.env.REACT_APP_GOOGLE_CLIENT_ID}`}>
       <DndProvider backend={HTML5Backend}>
-        <StompSessionProvider url='http://localhost:8080/batalla-naval'>
+        <StompSessionProvider url={`${process.env.REACT_APP_BACKEND_HOST}/batalla-naval`}>
           <App />
         </StompSessionProvider>
       </DndProvider>
