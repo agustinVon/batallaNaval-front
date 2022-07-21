@@ -11,6 +11,7 @@ import { StompSessionProvider } from 'react-stomp-hooks';
 const container = document.getElementById('root')!;
 const root = createRoot(container);
 console.log(window.location.origin)
+console.log("DONT READ", process.env.REACT_APP_GOOGLE_CLIENT_ID)
 root.render(
   <React.StrictMode>
     <GoogleOAuthProvider clientId={`${process.env.REACT_APP_GOOGLE_CLIENT_ID}`}>
