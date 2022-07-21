@@ -75,7 +75,7 @@ export const Home = () => {
         : <>
         <h2>Welcome back {profileData?.name}</h2>
         <div className='topHomeContainer'>
-          <MatchesTable matchData={profileData?.games?.map(game => ({opponent: game.opponent.name, result:game.result === "LOST" ? false : true}))}/>
+          <MatchesTable matchData={profileData?.games?.map(game => ({opponent: game?.opponent?.name, result:game?.result === "LOST" ? false : true}))}/>
           <div className='horizontalContainer' style={{flex: 1, justifyContent:'space-evenly'}}>
             <div className='statWrapper'>
               <label className='bigLabel'>{profileData?.games?.length || 0}</label>
