@@ -2,50 +2,45 @@ import React, { FormEvent, useEffect, useRef, useState } from 'react'
 import { CommonButton, SubmitButton } from './Button'
 import './chatBox.scss'
 import '../commons/buttonStyle.scss'
-import { useAuth0 } from '@auth0/auth0-react'
+import { useSubscription, useStompClient } from "react-stomp-hooks";
 
 interface ChatProps {
-  ws : WebSocket
+  userId: string,
+  gameId: string
 }
 
 interface MessageData {
-  gameId: string,
-  senderId: string,
-  recipientId: string,
+  senderName: string,
   content: string
 }
 
-export const ChatBox = ({ws}:ChatProps) => {
-  const {user} = useAuth0()
-  const submitMessage = (e:FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    // const message:MessageData = {gameId: '', senderId: `${user?.sub}`, recipientId: `${}` }
-    ws.send(JSON.stringify({ from: user?.nickname, text:message }))
-  }
-
+export const ChatBox = ({userId, gameId}:ChatProps) => {
   const [message, setMessage] = useState('')
-  const [messages, setMessages] = useState([
-    <Message user='Test' userColor='red' message='Test message'/>,
-    <Message user='Test1' userColor='blue' message='Test message1'/>,
-    <Message user='Test' userColor='red' message='Test message2'/>
-  ])
-
-  ws.onmessage = (m) => {
-    console.log(m)
+  const [messages, setMessages] = useState<MessageData[]>([])
+  const client = useStompClient()
+  const submitMessage = (e:FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    if (client) {
+      console.log('Submited', gameId)
+      client.publish({
+        destination:"/app/secured/room",
+        body: JSON.stringify({gameId, senderId: userId, content: message })
+      })
+    }
   }
+
+  useSubscription(`/game/${gameId}/chat`, response => {
+    const messageReceived = JSON.parse(response.body)
+    setMessages(prevValue => [...prevValue, ({senderName: messageReceived.senderName, content: messageReceived.content})])
+  })
 
   return (
     <div className='chatContainer'>
-        {ws 
-        ? <div className='chat'>
-            <Message user='Test' userColor='red' message='Test message'/>
-            <Message user='Test1' userColor='blue' message='Test message1'/>
-            <Message user='Test' userColor='red' message='Test message2'/>
+        <div className='chat'>
+          {messages.map((mes, index) => (
+            <Message key={index} user={mes.senderName} userColor='#3cbe3a' message={mes.content}/>
+          ))}
         </div>
-        : <div className='emptyChat'>
-            <CommonButton className='mediumButton' text='Join chat' width={120}/>
-        </div>
-        }
         <form className='chatInputContainer' onSubmit={submitMessage}>
             <input onChange={(e) => setMessage(e.target.value)}></input>
             <SubmitButton className='smallButton' text='Submit' width={80}/>

@@ -34,6 +34,19 @@ button:hover {
     font-size: fontsizes.$xSmall;
 }
 
+.mediumRedButton {
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: fontsizes.$xSmall;
+    color: colors.$darkRed;
+    border-color: colors.$darkRed;
+}
+
+.mediumRedButton:hover {
+    border-color: colors.$lightRed;
+    color: colors.$lightRed;
+}
+
 .smallButton {
     padding: 4px;
     font-size: fontsizes.$xXSmall;

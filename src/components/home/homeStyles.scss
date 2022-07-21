@@ -9,11 +9,12 @@
 
     h2 {
         color: colors.$green;
-        margin: 0
+        margin: 0;
     }
 
     h3 {
         color: colors.$green;
+        font-size: fontsizes.$small;
         margin: 0;
     }
 
@@ -40,6 +41,19 @@
         background-color: colors.$grey;
         gap: 30px;
 
+        .topHomeContainer {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            overflow: hidden;
+        }
+
+        .gameCodeInput{
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: fontsizes.$xSmall;
+        }
+
         .horizontalContainer {
             display: flex;
             gap: 10px;
@@ -57,10 +71,20 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+            align-items: center;
 
             label {
                 color: colors.$green;
                 font-size: fontsizes.$small;
+            }
+
+            .bigLabel {
+                font-weight: 100;
+                font-size: fontsizes.$xLarge;
+            }
+
+            .smallLabel {
+                font-size: fontsizes.$xXSmall;
             }
         }
     }
